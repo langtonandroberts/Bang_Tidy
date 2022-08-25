@@ -48,20 +48,22 @@ class LangtonAndRoberts(Tk):
         container.grid_rowconfigure(0, weight=1)
         container.grid_columnconfigure(0, weight=1)
         
+        #,Status bar,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
         title_text=StringVar()
         title_text.set("Kennel Managenent System")
         status_bar=Label(self,textvariable=title_text,height=2,relief=FLAT,anchor=CENTER,bg="#e2f723",fg="brown")
         status_bar.pack(fill=X,side=BOTTOM,ipady=2,padx=0)#,expand=True)
         
-        #,,Time ,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+        #,,Time in status bar,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
         def start():
             text=time.strftime("%H:%M:%S %p")#("%A  %d/%m/%Y  %H:%M:%S %p")
             label.config(text=text)
             label.after(200,start)
-        label=Label(status_bar,font=("ds-digital",9),bg="#e2f723",fg="black")
+        label=Label(status_bar,font=("ds-digital",9),bg="#e2f723",fg="brown")
         label.place(y=6,x=40)
         start()
         
+        #,,menu pages(left),,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
         self.frames = {}
         for F in (StartPage, PageOne, PageTwo, PageThree, PageFour, PageFive, PageSix, PageSeven, PageEight, PageNine):
 
@@ -147,7 +149,7 @@ class StartPage(Frame):
             if response == "yes":
                 app.quit()
         
-        #,,,,,,,,, ribbon buttons,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+        #,,, ribbon buttons,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
         ribbon_label = Label(can_4, text=" RIBBON \nMENU",font=LARGE_FONT,bg="white",fg="black")
         ribbon_label.grid(row=0,rowspan=3,column=0,ipadx=15)#pack(pady=5,padx=10)
         new_client_button = HoverButton(can_4, text="New Client\n  Registration  \nForm",relief=FLAT,activebackground="white",cursor="hand2",bg="#e2f723",bd=0,fg="black",height=5)
@@ -195,6 +197,14 @@ class PageOne(Frame):
         heading.grid(row=0,column=0,columnspan=3,padx=30,pady=25)
         button_label_frame=Frame(canvas_3,bg="light blue",bd=1)  
         button_label_frame.pack(pady=0,padx=0,anchor=W,fill=X)
+        
+        #,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+        #,,place everything in this frame,,,,,,,,,,,,,,,,,,,
+        page_frame=Frame(canvas_3,bg="red",bd=1)  
+        page_frame.pack(pady=0,padx=0,anchor=W,fill=X)
+        
+        
+        
         #,,,Buttons
         button1=HoverButton(button_label_frame,text="BUTTON ONE",font=LARGE_FONT,activebackground = 'white',cursor="hand2",bg="light blue",fg="black",relief=FLAT)
         button1.grid(row=0,column=0,padx=0,pady=0,ipady=10,ipadx=30)

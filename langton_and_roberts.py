@@ -1685,17 +1685,18 @@ class LangtonAndRoberts(Tk):#,,,startup config,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
         global status_bar
         status_bar=Label(self,text=Langton_and_Roberts,height=2,relief=FLAT,anchor=CENTER,bg="#e2f723",fg="brown")
         status_bar.pack(fill=X,side=BOTTOM,ipady=2,padx=0)#,expand=True)
-        #,,Time and date,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
-        '''def start():
-            text=time.strftime("%A  %d/%m/%Y  %H:%M:%S %p")
+        label2=Label(status_bar,text="hidden label here",bg="#e2f723",fg="black")
+        label2.place(y=8,x=160)
+        
+        #,,Time ,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+        def start():
+            text=time.strftime("%H:%M:%S %p")#("%A  %d/%m/%Y  %H:%M:%S %p")
             label.config(text=text)
             label.after(200,start)
-        label=Label(tab_0,font=("ds-digital",10,"bold"),bg="#e2f723",fg="black")
-        label.pack(side=BOTTOM,ipady=0,padx=0)#grid(row=0,column=1)
-        start()'''
+        label=Label(status_bar,font=("ds-digital",9),bg="#e2f723",fg="black")
+        label.place(y=8,x=40)
+        start()
         
-        #time_label=Label(status_label,text=time.strftime( "%d/%m/%Y %A %H:%M:%S"),fg="black",bd=1,height=1)
-        #time_label.pack(side=BOTTOM,ipady=0,padx=0)
         
         conn=sqlite3.connect("tree_crm.db")
         #,,,create a cursor.
