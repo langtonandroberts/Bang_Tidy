@@ -7,7 +7,8 @@ from PIL import ImageTk, Image
 from random import random 
 import random 
 from PIL import Image
-import tkinter as tk
+import tkinter as tk 
+from tkinter import messagebox
 
 
 #Langton_and_Roberts="Langton & RobertS"
@@ -51,7 +52,7 @@ class LangtonAndRoberts(Tk):
         status_bar.pack(fill=X,side=BOTTOM,ipady=2,padx=0)#,expand=True)
         
         self.frames = {}
-        for F in (StartPage, PageOne, PageTwo, PageThree, PageFour):
+        for F in (StartPage, PageOne, PageTwo, PageThree, PageFour, PageFive, PageSix, PageSeven, PageEight, PageNine):
 
             frame = F(container, self)
             self.frames[F] = frame
@@ -85,8 +86,6 @@ class StartPage(Frame):
         label = Label(can_2, image=networkpeoplePH, font=LARGE_FONT,bg="white")#,background="yellow")
         label.pack()
         
-        
-        
         #,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,    
         #,,,Home Tab Main Side (Home Page Frames),,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
         #,,,list of greetings on home page on start up.
@@ -99,7 +98,10 @@ class StartPage(Frame):
         day_name=today.strftime('%A')
         #print(day_name)
         if day_name =="Friday":
-            today_label=Label(can_3,text=f"Shake your tits,,,\nIt's \n{f_today}",font="helvetica, 70",bg="white",fg="orange",justify=LEFT)
+            today_label=Label(can_3,text=f"Shake your TIT'S,,,\nIt's \n{f_today}",font="helvetica, 70",bg="white",fg="orange",justify=LEFT)
+            today_label.grid(row=0,column=0,padx=80,pady=20,sticky=W)#pack(pady=20)
+        elif day_name =="Thursday":
+            today_label=Label(can_3,text=f"Weekend's getting closer!!\none more sleep.\nIt's \n{f_today}",font="helvetica, 70",bg="white",fg="orange",justify=LEFT)
             today_label.grid(row=0,column=0,padx=80,pady=20,sticky=W)#pack(pady=20)
         else:
             today_label=Label(can_3,text=f"{fraze}It's \n{f_today}",font="helvetica, 70",bg="white",fg="orange",justify=LEFT)
@@ -115,18 +117,44 @@ class StartPage(Frame):
         button3.pack(fill=X,pady=2)#grid(row=4,column=0)#pack()
         button4 = HoverButton(can_2, text="PAGE\nFOUR",height=3,relief=FLAT,cursor="hand2",bd=0,activebackground= 'orange',bg="#e2f723",fg="black",command=lambda: controller.show_frame(PageFour))
         button4.pack(fill=X,pady=2)#grid(row=4,column=0)#pack()
-        '''button5 = HoverButton(can_2, text="SERVICES",height=3,relief=FLAT,cursor="hand2",bd=0,activebackground= 'white',bg="#e2f723",fg="black")
+        button5 = HoverButton(can_2, text="PAGE\nFIVE",height=3,relief=FLAT,cursor="hand2",bd=0,activebackground= 'white',bg="#e2f723",fg="black",command=lambda: controller.show_frame(PageFive))
         button5.pack(fill=X,pady=2)#grid(row=4,column=0)#pack()
-        button6 = HoverButton(can_2, text="PET\nINFORMATION",height=3,relief=FLAT,cursor="hand2",bd=0,activebackground= 'orange',bg="#e2f723",fg="black")
+        button6 = HoverButton(can_2, text="PAGE\nSIX",height=3,relief=FLAT,cursor="hand2",bd=0,activebackground= 'orange',bg="#e2f723",fg="black",command=lambda: controller.show_frame(PageSix))
         button6.pack(fill=X,pady=2)#grid(row=4,column=0)#pack()
-        button7 = HoverButton(can_2, text="SELL\nSOMETHING",height=3,relief=FLAT,cursor="hand2",bd=0,activebackground= 'white',bg="#e2f723",fg="black")#lambda: controller.show_frame(PageTwo))
+        button7 = HoverButton(can_2, text="PAGE\nSEVER",height=3,relief=FLAT,cursor="hand2",bd=0,activebackground= 'white',bg="#e2f723",fg="black",command=lambda: controller.show_frame(PageSeven))
         button7.pack(fill=X,pady=2)#grid(row=3,column=1)#pack()
-        button8 = HoverButton(can_2, text="REPORTS",height=3,relief=FLAT,cursor="hand2",bd=0,activebackground= 'orange',bg="#e2f723",fg="black")#lambda: controller.show_frame(PageThree))
+        button8 = HoverButton(can_2, text="PAGE\nEIGHT",height=3,relief=FLAT,cursor="hand2",bd=0,activebackground= 'orange',bg="#e2f723",fg="black",command=lambda: controller.show_frame(PageEight))
         button8.pack(fill=X,pady=2)#grid(row=4,column=0)#pack()
-        button9 = HoverButton(can_2, text="EMPLOYEES",height=3,relief=FLAT,cursor="hand2",bd=0,activebackground= 'white',bg="#e2f723",fg="black")#lambda: controller.show_frame(PageThree))
-        button9.pack(fill=X,pady=2)#grid(row=4,column=0)#pack()'''
+        button9 = HoverButton(can_2, text="PAGE\nNINE",height=3,relief=FLAT,cursor="hand2",bd=0,activebackground= 'white',bg="#e2f723",fg="black",command=lambda: controller.show_frame(PageNine))
+        button9.pack(fill=X,pady=2)#grid(row=4,column=0)#pack()
         
-     
+        def close_app():
+            response = messagebox.askquestion("CLOSE", "Do you really want to Exit?\nthis will close the program!.")
+            #print(response)
+            if response == "yes":
+                app.quit()
+        
+        #,,,,,,,,, ribbon buttons,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+        ribbon_label = Label(can_4, text=" RIBBON \nMENU",font=LARGE_FONT,bg="white",fg="black")
+        ribbon_label.grid(row=0,rowspan=3,column=0,ipadx=15)#pack(pady=5,padx=10)
+        new_client_button = HoverButton(can_4, text="New Client\n  Registration  \nForm",relief=FLAT,activebackground="white",cursor="hand2",bg="#e2f723",bd=0,fg="black",height=5)
+        new_client_button.grid(row=0,rowspan=3,column=1,pady=0,padx=2,ipadx=15)#pack()
+        new_pet_button = HoverButton(can_4, text="New Pet\n  Registration  \nForm",relief=FLAT,activebackground="orange",cursor="hand2",bg="#e2f723",bd=0,fg="black",height=5)
+        new_pet_button.grid(row=0,rowspan=3,column=2,pady=0,padx=2,ipadx=15)#pack()
+        quick_booking_button = HoverButton(can_4, text="Quick\n  Booking  \nForm",relief=FLAT,activebackground="white",cursor="hand2",bg="#e2f723",bd=0,fg="black",height=5)
+        quick_booking_button.grid(row=0,rowspan=3,column=3,pady=0,padx=2,ipadx=15)#pack()
+        new_supplier_button = HoverButton(can_4, text="  New Supplier  \nForm",relief=FLAT,activebackground="orange",cursor="hand2",bg="#e2f723",bd=0,fg="black",height=5)
+        new_supplier_button.grid(row=0,rowspan=3,column=4,pady=0,padx=2)#pack()
+        new_product_button = HoverButton(can_4, text="New\nProduct\nForm",relief=FLAT,cursor="hand2",bd=0,activebackground="white",bg="#e2f723",fg="black",height=5)
+        new_product_button.grid(row=0,rowspan=3,column=6,padx=2,pady=0,ipadx=15)#pack()
+        new_service_button = HoverButton(can_4, text="New\nService",relief=FLAT,cursor="hand2",bd=0,activebackground="orange",bg="#e2f723",fg="black",height=5)
+        new_service_button.grid(row=0,rowspan=3,column=7,padx=2,pady=0,ipadx=15)#pack()
+        help_button = HoverButton(can_4, text="  HELP  ",relief=FLAT,activebackground="white",cursor="hand2",bg="#e2f723",bd=0,fg="black",height=5)
+        help_button.grid(row=0,rowspan=3,column=8,pady=0,padx=2,ipadx=15)#pack()
+        exit_program_button = HoverButton(can_4, text="  CLOSE  ",relief=FLAT,activebackground="red",cursor="hand2",bg="#e2f723",bd=0,fg="black",height=5, command = close_app)
+        exit_program_button.grid(row=0,rowspan=3,column=9,pady=0,padx=2,ipadx=15)#pack()
+
+   
 class PageOne(Frame):
     def __init__(self, parent, controller):
         Frame.__init__(self, parent)
@@ -145,8 +173,8 @@ class PageOne(Frame):
         network_label.image=networkpeoplePH#this must be put to show the image.
         label = Label(can_2, image=networkpeoplePH, font=LARGE_FONT,bg="white")#,background="yellow")
         label.pack()
-        button1 = HoverButton(can_2, text="Back to Home Page",font="helvetica 12",activebackground = 'orange',bg="#e2f723",height=3,relief=FLAT,bd=0,fg="black",command=lambda: controller.show_frame(StartPage))
-        button1.pack(anchor=W,fill=X)
+        return_home_button = HoverButton(can_2, text="Back to Home Page",font="helvetica 12",activebackground = 'orange',bg="#e2f723",height=3,relief=FLAT,bd=0,fg="black",command=lambda: controller.show_frame(StartPage))
+        return_home_button.pack(anchor=W,fill=X)
         #,,,Frames
         top_label_frame=Frame(canvas_3,bd=1)  
         top_label_frame.pack(pady=0,padx=0,anchor=W,fill=X)
@@ -186,9 +214,8 @@ class PageTwo(Frame):
         #network_label.grid(row=0,column=0)
         label = Label(can_2, image=networkpeoplePH, font=LARGE_FONT,bg="white")#,background="yellow")
         label.pack()
-        button1 = HoverButton(can_2, text="Back to Home Page",cursor="hand2",font="helvetica 12",activebackground= 'orange',bg="#e2f723",height=3,relief=FLAT,bd=0,fg="black",command=lambda: controller.show_frame(StartPage))
-        button1.pack(anchor=W,fill=X)
-    
+        return_home_button = HoverButton(can_2, text="Back to Home Page",cursor="hand2",font="helvetica 12",activebackground= 'orange',bg="#e2f723",height=3,relief=FLAT,bd=0,fg="black",command=lambda: controller.show_frame(StartPage))
+        return_home_button.pack(anchor=W,fill=X)
         #,,,Frames
         top_label_frame=Frame(canvas_3,bd=1)  
         top_label_frame.pack(pady=0,padx=0,anchor=W,fill=X)
@@ -229,8 +256,8 @@ class PageThree(Frame):
         label = Label(can_2, image=networkpeoplePH, font=LARGE_FONT,bg="white")
         label.pack()
         #,,,Left side button widgets,,,,,,,,,,,,,,,,,,,,,,,,
-        button1 = HoverButton(can_2, text="Back to Home Page",cursor="hand2",font="helvetica 12",activebackground= 'orange',bg="#e2f723",height=3,relief=FLAT,bd=0,fg="black",command=lambda: controller.show_frame(StartPage))
-        button1.pack(anchor=W,fill=X)
+        return_home_button = HoverButton(can_2, text="Back to Home Page",cursor="hand2",font="helvetica 12",activebackground= 'orange',bg="#e2f723",height=3,relief=FLAT,bd=0,fg="black",command=lambda: controller.show_frame(StartPage))
+        return_home_button.pack(anchor=W,fill=X)
 
 
 class PageFour(Frame):
@@ -251,8 +278,118 @@ class PageFour(Frame):
         label = Label(can_2, image=networkpeoplePH, font=LARGE_FONT,bg="white")
         label.pack()
         #,,,Left side button widgets,,,,,,,,,,,,,,,,,,,,,,,,
-        button1 = HoverButton(can_2, text="Back to Home Page",cursor="hand2",font="helvetica 12",activebackground= 'orange',bg="#e2f723",height=3,relief=FLAT,bd=0,fg="black",command=lambda: controller.show_frame(StartPage))
-        button1.pack(anchor=W,fill=X)
+        return_home_button = HoverButton(can_2, text="Back to Home Page",cursor="hand2",font="helvetica 12",activebackground= 'orange',bg="#e2f723",height=3,relief=FLAT,bd=0,fg="black",command=lambda: controller.show_frame(StartPage))
+        return_home_button.pack(anchor=W,fill=X)
+
+
+class PageFive(Frame):
+
+    def __init__(self, parent, controller):
+        Frame.__init__(self, parent)
+        #,,,left side frame,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+        can_2=Frame(self,relief=FLAT,bd=0,bg="white")
+        can_2.pack(side='left',anchor=W,fill='both')#,expand=True)
+        can_3=Frame(self,relief=FLAT,bd=0)
+        can_3.pack(side='left',anchor=W,fill='both',expand=True)
+        #,,,load an Image,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+        networkpeople=(Image.open("network.png"))
+        networkpeople=networkpeople.resize((180,180))#resizes the image.
+        networkpeoplePH=ImageTk.PhotoImage(networkpeople)
+        network_label=tk.Label(can_2,image=networkpeoplePH)
+        network_label.image=networkpeoplePH#this must be put to show the image.
+        label = Label(can_2, image=networkpeoplePH, font=LARGE_FONT,bg="white")
+        label.pack()
+        #,,,Left side button widgets,,,,,,,,,,,,,,,,,,,,,,,,
+        return_home_button = HoverButton(can_2, text="Back to Home Page",cursor="hand2",font="helvetica 12",activebackground= 'orange',bg="#e2f723",height=3,relief=FLAT,bd=0,fg="black",command=lambda: controller.show_frame(StartPage))
+        return_home_button.pack(anchor=W,fill=X)
+        
+        
+class PageSix(Frame):
+
+    def __init__(self, parent, controller):
+        Frame.__init__(self, parent)
+        #,,,left side frame,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+        can_2=Frame(self,relief=FLAT,bd=0,bg="white")
+        can_2.pack(side='left',anchor=W,fill='both')#,expand=True)
+        can_3=Frame(self,relief=FLAT,bd=0)
+        can_3.pack(side='left',anchor=W,fill='both',expand=True)
+        #,,,load an Image,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+        networkpeople=(Image.open("network.png"))
+        networkpeople=networkpeople.resize((180,180))#resizes the image.
+        networkpeoplePH=ImageTk.PhotoImage(networkpeople)
+        network_label=tk.Label(can_2,image=networkpeoplePH)
+        network_label.image=networkpeoplePH#this must be put to show the image.
+        label = Label(can_2, image=networkpeoplePH, font=LARGE_FONT,bg="white")
+        label.pack()
+        #,,,Left side button widgets,,,,,,,,,,,,,,,,,,,,,,,,
+        return_home_button = HoverButton(can_2, text="Back to Home Page",cursor="hand2",font="helvetica 12",activebackground= 'orange',bg="#e2f723",height=3,relief=FLAT,bd=0,fg="black",command=lambda: controller.show_frame(StartPage))
+        return_home_button.pack(anchor=W,fill=X)
+
+
+class PageSeven(Frame):
+
+    def __init__(self, parent, controller):
+        Frame.__init__(self, parent)
+        #,,,left side frame,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+        can_2=Frame(self,relief=FLAT,bd=0,bg="white")
+        can_2.pack(side='left',anchor=W,fill='both')#,expand=True)
+        can_3=Frame(self,relief=FLAT,bd=0)
+        can_3.pack(side='left',anchor=W,fill='both',expand=True)
+        #,,,load an Image,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+        networkpeople=(Image.open("network.png"))
+        networkpeople=networkpeople.resize((180,180))#resizes the image.
+        networkpeoplePH=ImageTk.PhotoImage(networkpeople)
+        network_label=tk.Label(can_2,image=networkpeoplePH)
+        network_label.image=networkpeoplePH#this must be put to show the image.
+        label = Label(can_2, image=networkpeoplePH, font=LARGE_FONT,bg="white")
+        label.pack()
+        #,,,Left side button widgets,,,,,,,,,,,,,,,,,,,,,,,,
+        return_home_button = HoverButton(can_2, text="Back to Home Page",cursor="hand2",font="helvetica 12",activebackground= 'orange',bg="#e2f723",height=3,relief=FLAT,bd=0,fg="black",command=lambda: controller.show_frame(StartPage))
+        return_home_button.pack(anchor=W,fill=X)
+
+
+class PageEight(Frame):
+
+    def __init__(self, parent, controller):
+        Frame.__init__(self, parent)
+        #,,,left side frame,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+        can_2=Frame(self,relief=FLAT,bd=0,bg="white")
+        can_2.pack(side='left',anchor=W,fill='both')#,expand=True)
+        can_3=Frame(self,relief=FLAT,bd=0)
+        can_3.pack(side='left',anchor=W,fill='both',expand=True)
+        #,,,load an Image,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+        networkpeople=(Image.open("network.png"))
+        networkpeople=networkpeople.resize((180,180))#resizes the image.
+        networkpeoplePH=ImageTk.PhotoImage(networkpeople)
+        network_label=tk.Label(can_2,image=networkpeoplePH)
+        network_label.image=networkpeoplePH#this must be put to show the image.
+        label = Label(can_2, image=networkpeoplePH, font=LARGE_FONT,bg="white")
+        label.pack()
+        #,,,Left side button widgets,,,,,,,,,,,,,,,,,,,,,,,,
+        return_home_button = HoverButton(can_2, text="Back to Home Page",cursor="hand2",font="helvetica 12",activebackground= 'orange',bg="#e2f723",height=3,relief=FLAT,bd=0,fg="black",command=lambda: controller.show_frame(StartPage))
+        return_home_button.pack(anchor=W,fill=X)
+
+
+class PageNine(Frame):
+
+    def __init__(self, parent, controller):
+        Frame.__init__(self, parent)
+        #,,,left side frame,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+        can_2=Frame(self,relief=FLAT,bd=0,bg="white")
+        can_2.pack(side='left',anchor=W,fill='both')#,expand=True)
+        can_3=Frame(self,relief=FLAT,bd=0)
+        can_3.pack(side='left',anchor=W,fill='both',expand=True)
+        #,,,load an Image,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+        networkpeople=(Image.open("network.png"))
+        networkpeople=networkpeople.resize((180,180))#resizes the image.
+        networkpeoplePH=ImageTk.PhotoImage(networkpeople)
+        network_label=tk.Label(can_2,image=networkpeoplePH)
+        network_label.image=networkpeoplePH#this must be put to show the image.
+        label = Label(can_2, image=networkpeoplePH, font=LARGE_FONT,bg="white")
+        label.pack()
+        #,,,Left side button widgets,,,,,,,,,,,,,,,,,,,,,,,,
+        return_home_button = HoverButton(can_2, text="Back to Home Page",cursor="hand2",font="helvetica 12",activebackground= 'orange',bg="#e2f723",height=3,relief=FLAT,bd=0,fg="black",command=lambda: controller.show_frame(StartPage))
+        return_home_button.pack(anchor=W,fill=X)
 
 
 app = LangtonAndRoberts()
