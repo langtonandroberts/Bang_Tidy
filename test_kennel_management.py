@@ -1,4 +1,6 @@
 
+from datetime import date
+import time 
 from tkinter import ttk 
 from tkinter import * 
 from datetime import date 
@@ -9,9 +11,9 @@ import random
 from PIL import Image
 import tkinter as tk 
 from tkinter import messagebox
+import datetime
 
 
-#Langton_and_Roberts="Langton & RobertS"
 LARGE_FONT= ("Verdana", 12)
 NORM_FONT = ("Helvetica", 11)
 SMALL_FONT = ("Helvetica", 10)
@@ -47,9 +49,18 @@ class LangtonAndRoberts(Tk):
         container.grid_columnconfigure(0, weight=1)
         
         title_text=StringVar()
-        title_text.set("Kennel Boarding Managenent System")
+        title_text.set("Kennel Managenent System")
         status_bar=Label(self,textvariable=title_text,height=2,relief=FLAT,anchor=CENTER,bg="#e2f723",fg="brown")
         status_bar.pack(fill=X,side=BOTTOM,ipady=2,padx=0)#,expand=True)
+        
+        #,,Time ,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+        def start():
+            text=time.strftime("%H:%M:%S %p")#("%A  %d/%m/%Y  %H:%M:%S %p")
+            label.config(text=text)
+            label.after(200,start)
+        label=Label(status_bar,font=("ds-digital",9),bg="#e2f723",fg="black")
+        label.place(y=6,x=40)
+        start()
         
         self.frames = {}
         for F in (StartPage, PageOne, PageTwo, PageThree, PageFour, PageFive, PageSix, PageSeven, PageEight, PageNine):
@@ -87,7 +98,7 @@ class StartPage(Frame):
         label.pack()
         
         #,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,    
-        #,,,Home Tab Main Side (Home Page Frames),,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+        #,,,Home Tab Main Side (Home Page Frame),,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
         #,,,list of greetings on home page on start up.
         frase_list=["O.M.G!!,,, I can't believe\n",
                     "Shit,,,, I can't believe\n",
@@ -99,13 +110,15 @@ class StartPage(Frame):
         #print(day_name)
         if day_name =="Friday":
             today_label=Label(can_3,text=f"Shake your TIT'S,,,\nIt's \n{f_today}",font="helvetica, 70",bg="white",fg="orange",justify=LEFT)
-            today_label.grid(row=0,column=0,padx=80,pady=20,sticky=W)#pack(pady=20)
+            today_label.grid(row=0,column=0,padx=80,pady=30,sticky=W)#pack(pady=20)
         elif day_name =="Thursday":
-            today_label=Label(can_3,text=f"Weekend's getting closer!!\none more sleep.\nIt's \n{f_today}",font="helvetica, 70",bg="white",fg="orange",justify=LEFT)
-            today_label.grid(row=0,column=0,padx=80,pady=20,sticky=W)#pack(pady=20)
+            today_label=Label(can_3,text=f"One more sleep,,\nIt's \n{f_today}",font="helvetica, 70",bg="white",fg="orange",justify=LEFT)
+            today_label.grid(row=0,column=0,padx=80,pady=30,sticky=W)#pack(pady=20)
         else:
             today_label=Label(can_3,text=f"{fraze}It's \n{f_today}",font="helvetica, 70",bg="white",fg="orange",justify=LEFT)
-            today_label.grid(row=0,column=0,padx=80,pady=20,sticky=W)#pack(pady=20)
+            today_label.grid(row=0,column=0,padx=80,pady=30,sticky=W)#pack(pady=20)
+            
+        
             
         #,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
         #,,,,Left side Buttons linked to Class Button,,,,,,,,,,,,,,,,,,,,,,,,,,,
