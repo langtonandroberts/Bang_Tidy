@@ -1,5 +1,5 @@
 
-
+#https://youtu.be/uQ5BZht9L3A
 #https://youtu.be/YgI94IRXySk
 #https://youtu.be/Uh2ebFW8OYM
 #https://youtu.be/crluPcyuchU
@@ -7,13 +7,36 @@
 
 from tkinter import *
 from tkinter import filedialog as fd 
+from pathlib import Path 
+
 ws = Tk()
 ws.title("File Sellection Code")
 ws.geometry("100x100")
 
+
+# MODE'S
 # r read    # readline() brings back 1 line.
 # a append  # ,end='' (to remove empty lines)
 # w write   # rb & wb (binary code) to be used for pictures jpg
+# x Write, fail if file exists
+# + Updating (read/write)
+# t Text(default)
+# b Binary
+
+# write all files with the (with_command)
+#example
+#stream=open(file_name, mode, buffer_size)#buffer size can be left off as its default.
+stream=open('output.txt','w')
+print('\nCan I write to this file? ' + str(stream.writable()) + '\n')
+print('\nIs this file readable? ' + str(stream.readable()) + '\n')
+stream.write('Hello World')
+cwd=Path.cwd()
+stream=Path.joinpath(cwd, 'stream.txt')
+
+print(stream.exists())
+
+
+
 
 # the open comand.    
 # Open is the function to open file
@@ -25,7 +48,7 @@ def openf():
     except FileNotFoundError:
         text=None
     
-#openf()
+openf()
 
 # opens popup file window
 def open_file():
