@@ -6,10 +6,8 @@ from telnetlib import STATUS
 import pyttsx3
 import PyPDF2 
 import datetime 
-
 import datetime
 from datetime import timedelta 
-
 from distutils import text_file
 import random
 #from curses.textpad import Textbox
@@ -65,9 +63,6 @@ import random
 import cv2 
 import numpy 
 
-
-    
-
 global engine  
 global open_status_name
 open_status_name=False
@@ -80,11 +75,9 @@ SMALL_FONT = ("Helvetica", 10)
 HEIGHT = 700
 WIDTH = 500
 
-Langton_and_Roberts="Langton & Roberts          Kennel Boarding Managenent System"
+Langton_and_Roberts="Langton & Roberts"
 boading_rate_1=(float(10.00))
 boading_rate_1=format(boading_rate_1,'.2f')
-
-
 
 #def ring():
     #app.bell()
@@ -95,7 +88,7 @@ def callback():
     print(name)
     
 
-global popupmsg
+
 def popupmsg(msg):
     popup = Tk()
     #popup.overrideredirect(True)
@@ -355,35 +348,23 @@ def settings_window():#,Popup window,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
     ent_13.grid(row=3, column=1,columnspan=3,sticky=W)
     lbl_info = Label(master_frame, text='Supplier details can be found on invoices and reciepts:',fg="brown")
     lbl_info.pack()#.grid(row=4, column=0, padx=4, pady=10,sticky=W)
-    #,,Notes Text Box,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
-    #notes_supplyer=Text(notes_contact_frame,width=46,height=4,font="helvetica 12")
-    #notes_supplyer.grid(row=0,column=0,sticky=W)
-    #,,Comand Buttons for Supplier Form,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
-    #clear_notes_button=Button(button_frame,text="CLEAR NOTES",font=LARGE_FONT,command=lambda: popupmsg('Not supported just yet!'))
-    #clear_notes_button.grid(row=0,column=0,padx=2,pady=2)
-    
-    
-
-    #,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
-    #,,,create suppliers database table,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
-    
     
     #,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
     #,,Supplier database functions,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
     #,,,add new supplier to database.
     def add_supplier():
         if ent_1.get()=="":
-            popupmsg("Missing Data\n\nSupplier name needed.")
+            popupmsg("Missing Data\n\nLooks like you forgot something\nSupplier name needed.")
         elif ent_3.get()=="":
-            popupmsg("Missing Data\n\nAddress needed.")
+            popupmsg("Missing Data\n\nLooks like you forgot something\nAddress needed.")
         elif ent_4.get()=="":
-            popupmsg("Missing Data\n\nTown needed.")
+            popupmsg("Missing Data\n\nLooks like you forgot something\nTown needed.")
         elif ent_5.get()=="":
-            popupmsg("Missing Data\n\nCity needed.")
+            popupmsg("Missing Data\n\nLooks like you forgot something\nCity needed.")
         elif ent_6.get()=="":
-            popupmsg("Missing Data\n\nPostcode needed.")
+            popupmsg("Missing Data\n\nLooks like you forgot something\nPostcode needed.")
         elif ent_7.get()=="":
-            popupmsg("Missing Data\n\nWebsite needed\nIf not aplicable enter NA")
+            popupmsg("Missing Data\n\nLooks like you forgot something\nWebsite needed\nIf not aplicable enter NA")
         else:    
             #,,, Connect to database. to add suppliers,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
             conn=sqlite3.connect("tree_crm.db")
@@ -460,7 +441,6 @@ def quick_reg_window():#,Popup window
     #,,,add new record to database.
     def save_client_record():
         if title_combo.get()=="":
-            #messagebox.showinfo("MISSING DATA", "Title needed\nAll fields needed!")
             popupmsg("Title Needed")
         elif tb_2.get()=="":
             popupmsg("First name needed.")
@@ -499,8 +479,6 @@ def quick_reg_window():#,Popup window
                     "postcode":tb_8.get().upper(),
                     "phone":tb_9.get(),
                     "email":tb_10.get(),
-                    #"pet_name1":tb_11.get().capitalize(),
-                    #"pet_name2":pet2_ent.get().capitalize(),
                     })
             #,,,commit the changes
             conn.commit()
@@ -540,8 +518,7 @@ def quick_reg_window():#,Popup window
         tb_8.delete(0,END)
         tb_9.delete(0,END)
         tb_10.delete(0,END)
-        #pet1_ent.delete(0,END)
-        #pet2_ent.delete(0,END)
+        
     
     
     lab_1=Label(contact_info,text="Title:")
@@ -591,12 +568,7 @@ def quick_reg_window():#,Popup window
     tb_11.grid(row=0,column=5,padx=3,pady=3,sticky="w")
     lab_12=Label(info_notes,text="Once completed continue to  New Pet Registration in the ribbon menu\nPet's are regestered seperate and given a uniqe ID.",fg="brown",font=SMALL_FONT)
     lab_12.grid(row=0,column=0,padx=3,pady=3,sticky="w")
-    #pet1_ent=Entry(info_notes)
-    #pet1_ent.grid(row=0,column=1,padx=3,pady=3,sticky="w")
-    #lab_13=Label(info_notes,text="Pet name 2:")
-    #lab_13.grid(row=0,column=2,padx=3,pady=3,sticky="w")
-    #pet2_ent=Entry(info_notes)
-    #pet2_ent.grid(row=0,column=3,padx=3,pady=3,sticky="w")
+    
     
     #,,,Buttons,Client regestration form,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
     clear_button=HoverButton(button_command,text="CLEAR ALL",cursor="hand2",font=LARGE_FONT,activebackground='#e2f723',bg="systembuttonface",fg="black",command=clear_boxes)#lambda: popupmsg('Not supported just yet!'))
@@ -605,8 +577,7 @@ def quick_reg_window():#,Popup window
     save_button.grid(row=0,column=1,padx=(5,2),pady=2)#,sticky="E")
     exit_button=HoverButton(button_command,text="EXIT FORM",cursor="hand2",font=LARGE_FONT,activebackground='orange',bg="#e2f723",fg="black",command=quick_reg_window.destroy)
     exit_button.grid(row=0,column=3,padx=2,pady=2,sticky="E")
-    #save_continue_button=Button(button_command,text="REGISTER PET",command=pet_window)#command=lambda: popupmsg('Not supported just yet!'))
-    #save_continue_button.grid(row=0,column=0,padx=2,pady=2)#,sticky="E")
+    
 
 #,,,New product form
 def new_product_window():#,Popup window
@@ -776,29 +747,31 @@ def pet_window():#,Popup window
     #app.bell()
     pet_window = Toplevel()
     pet_window.title("Pet Details Form.(can be filled in on arrival)")
-    pet_window.geometry('725x410+400+104')
+    pet_window.geometry('695x310+400+104')
     pet_window.resizable(False,False)
     dt_stamp=time.strftime("%d/%m/%Y")
     #,,Frames,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
     frame_1 = Frame(pet_window, height=HEIGHT, width=WIDTH)
     frame_1.grid(row=0,column=0,padx=5,pady=5)
     
-    widget_box_frame = LabelFrame(frame_1,text='')#frame for combo boxes.
+    widget_box_frame = LabelFrame(frame_1)#frame for combo boxes.
     widget_box_frame.pack(padx=10,pady=10,ipadx=10)
+    button_frame = Frame(widget_box_frame)
+    button_frame.grid(row=7,column=0,columnspan=4,pady=10)
     
     #pet_info_lb_frame = LabelFrame(frame_1,text='Pet Registration & Information',font=LARGE_FONT)
     #pet_info_lb_frame.pack(padx=5,pady=5)
     
     
-    vacination_frame = LabelFrame(widget_box_frame,text='Vacinations')
-    vacination_frame.grid(row=6,column=0,columnspan=4,padx=10,pady=5,ipadx=2,sticky=W)
+    #vacination_frame = LabelFrame(widget_box_frame,text='Vacinations')
+    #vacination_frame.grid(row=6,column=0,columnspan=4,padx=10,pady=5,ipadx=2,sticky=W)
     
-    button_frame = Frame(vacination_frame)
-    button_frame.grid(row=4,column=0,columnspan=4)
     #button_frame.pack(side="left",padx=5,pady=5,)
     
     click_get=StringVar()
     click_get.set("")
+    vaccin_get=StringVar()
+    vaccin_get.set("")
     
     
     def query_pet_database():
@@ -942,6 +915,31 @@ def pet_window():#,Popup window
         entry_9.configure(bd=0,bg="systembuttonface",state="disabled")
         click_get.set("")
         ent9_text.set("")
+        vaccin_combo.current(0)
+        vac_name_combo.current()
+        vaccin_get.set("")
+        
+        
+    
+    
+    def vaccin_click(e):
+        if vaccin_combo.get()== "Yes":
+            vaccin_get.set("Vaccine name:")
+            #vaccine_date = DateEntry(widget_box_frame,setmode="day",date_pattern="dd/mm/yyyy",state='readonly',width=11)
+            #vaccine_date.grid(row=6,column=3,padx=3,pady=5,sticky=W)  
+            vac_name_combo=ttk.Combobox(widget_box_frame,width=11,state="normal")#,state='readonly')
+            vac_name_combo['values']=['Bordetella', 'DHPP', 'Leptosirosis', 'Parvovirus', 'Hepatitis', 'Distemper', 'Kennel Cough']
+            vac_name_combo.current(0)
+            vac_name_combo.grid(row=6,column=3,padx=3,pady=5,sticky=W) 
+        elif vaccin_combo.get()== "No":
+            vac_name_combo=ttk.Combobox(widget_box_frame,width=11,state='readonly')#,state='readonly')
+            vac_name_combo['values']=['N/A']
+            vac_name_combo.current(0)
+            vac_name_combo.grid(row=6,column=3,padx=3,pady=5,sticky=W) 
+            vaccin_get.set("")
+        else:
+            vaccin_get.set("")
+            
     
     
     def combo_click(e):
@@ -993,7 +991,6 @@ def pet_window():#,Popup window
     conn=sqlite3.connect("tree_crm.db")
     #,,,create a cursor.
     c=conn.cursor()
-    
     owners=[]
     sql5=("SELECT rowid,  first_name, last_name FROM clients")
     #,,,get row using ID,,,,,,,
@@ -1002,13 +999,13 @@ def pet_window():#,Popup window
     for i in ids:
         owners.append(str(i[1])+" "+i[2])#+" "+i[2])#,,i[0]=ID/i[1]=first_name/i[2]=last_name
 
-    
+    conn.commit()
+    conn.close()
     pet=[]
     #,,takes pet names from Clients data base table and appends to combo box,,,,,,,,,,,,
     conn=sqlite3.connect("tree_crm.db")
     #,,,create a cursor.
     c=conn.cursor()
-    
     pet=[]
     sqlpet=("SELECT rowid,  pet_name FROM customer_pets")
     #,,,get row using ID,,,,,,,
@@ -1016,6 +1013,8 @@ def pet_window():#,Popup window
     ids=c.fetchall()
     for i in ids:
         pet.append(str(i[1]))#+" ")+i[2])
+    conn.commit()
+    conn.close()
         
     #,,labels and buttons,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
     lbl_1 = Label(widget_box_frame,text='Pet Owner:')
@@ -1106,11 +1105,6 @@ def pet_window():#,Popup window
     entry_13.current()
     entry_13.grid(row=4,column=3,padx=3,pady=5,sticky=W)
     
-    #lbl_date = Label(widget_box_frame,text="")
-    #lbl_date.grid(row=4,column=4,padx=3,pady=5,sticky=W)
-    #lb_date_today=DateEntry(widget_box_frame,setmode="day",date_pattern="dd/mm/yyyy",state='readonly')
-    #lb_date_today.grid(row=4,column=5,padx=3,pady=5,sticky=W)
-    
     lbl_health = Label(widget_box_frame,text='Health:')
     lbl_health.grid(row=5,column=0,padx=3,pady=5,sticky=W)
     entry_health=ttk.Combobox(widget_box_frame,width=11,state='readonly')
@@ -1125,52 +1119,23 @@ def pet_window():#,Popup window
     attribute_ent.current()
     attribute_ent.grid(row=5,column=3,padx=3,pady=5,sticky=W)
     
-    #,,,vaccine labels,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
-    lbl_v1 = Label(vacination_frame,text='Vacination Name')
-    lbl_v1.grid(row=0,column=0,padx=2,pady=5,sticky=EW)
-    lbl_v2 = Label(vacination_frame,text='Date vacinated')
-    lbl_v2.grid(row=0,column=1,padx=2,pady=5,sticky=EW)
-    lbl_v3 = Label(vacination_frame,text='Expires')
-    lbl_v3.grid(row=0,column=2,padx=2,pady=5,sticky=EW)
-    lbl_v4 = Label(vacination_frame,text='Referance ID')
-    lbl_v4.grid(row=0,column=3,padx=2,pady=5,sticky=EW)
-    vaccin_combo=ttk.Combobox(vacination_frame,width=11,state='readonly')
-    vaccin_combo['values']=['Bordetella', 'DHPP', 'Leptosirosis', 'Other']
-    vaccin_combo.current()
-    vaccin_combo.grid(row=1,column=0,padx=3,pady=5,sticky=W)
-    vaccin2_combo=ttk.Combobox(vacination_frame,width=11,state='readonly')
-    vaccin2_combo['values']=['Bordetella', 'DHPP', 'Leptosirosis', 'Other']
-    vaccin2_combo.current()
-    vaccin2_combo.grid(row=2,column=0,padx=3,pady=5,sticky=W)
-    vaccin3_combo=ttk.Combobox(vacination_frame,width=11,state='readonly')
-    vaccin3_combo['values']=['Bordetella', 'DHPP', 'Leptosirosis', 'Other']
-    vaccin3_combo.current()
-    vaccin3_combo.grid(row=3,column=0,padx=3,pady=5,sticky=W)
+    lbl_v1 = Label(widget_box_frame,text='Vaccinated:')
+    lbl_v1.grid(row=6,column=0,padx=3,pady=5,sticky=W)
+    vaccine_date_lbl = Label(widget_box_frame,textvariable=vaccin_get)
+    vaccine_date_lbl.grid(row=6,column=2,padx=2,pady=5,sticky=E)
+    vaccin_combo=ttk.Combobox(widget_box_frame,width=11,state='readonly')
+    vaccin_combo['values']=['No', 'Yes']
+    vaccin_combo.current(0)
+    vaccin_combo.grid(row=6,column=1,padx=3,pady=5,sticky=W)
+    vaccin_combo.bind("<<ComboboxSelected>>",vaccin_click)
     
-    
-    entry_v1 = DateEntry(vacination_frame,setmode="day",date_pattern="dd/mm/yyyy",state='readonly',width=11)
-    entry_v1.grid(row=1,column=1,padx=10)#,sticky=W)
-    entry_v2 = Entry(vacination_frame,width=11)
-    entry_v2.grid(row=1,column=2,padx=10)#,sticky=W)
-    entry_v3 = Entry(vacination_frame)
-    entry_v3.grid(row=1,column=3,padx=10)#,sticky=W)
-    
-    entry_v4 = Entry(vacination_frame,width=11)
-    entry_v4.grid(row=2,column=1)#,sticky=W)
-    entry_v5 = Entry(vacination_frame,width=11)
-    entry_v5.grid(row=2,column=2)#,sticky=W)
-    entry_v6 = Entry(vacination_frame)
-    entry_v6.grid(row=2,column=3)#,sticky=W)
-    
-    entry_v7 = Entry(vacination_frame,width=11)
-    entry_v7.grid(row=3,column=1,padx=10)#,sticky=W)
-    entry_v8 = Entry(vacination_frame,width=11)
-    entry_v8.grid(row=3,column=2,padx=10)#,sticky=W)
-    entry_v9 = Entry(vacination_frame)
-    entry_v9.grid(row=3,column=3,padx=10)#,sticky=W)
+    vac_name_combo=ttk.Combobox(widget_box_frame,width=11,state='readonly')#,state='readonly')
+    vac_name_combo['values']=['N/A']
+    vac_name_combo.current(0)
+    vac_name_combo.grid(row=6,column=3,padx=3,pady=5,sticky=W) 
     
     lbl_info = Label(widget_box_frame,text="Notice:\nPet's are linked to pet owners (client).\nplease register the client details first.\nthis can be found in the ribbon menu\nNew Client Registration Form.",fg="brown")
-    lbl_info.grid(row=6,column=4,columnspan=2,padx=2,pady=2,sticky=NW)
+    lbl_info.grid(row=4,column=4,columnspan=2,rowspan=3,padx=10,pady=2)
     
     clear_button=HoverButton(button_frame,text="CLEAR",font=LARGE_FONT,cursor="hand2",activebackground='#e2f723',bg="systembuttonface",fg="black",command=clear_pet)#lambda: popupmsg('Not supported just yet!'))
     clear_button.grid(row=0,column=0,padx=3,pady=6)#,sticky="E")
@@ -1246,7 +1211,8 @@ def book_in_window():#,Popup window
     ids=c.fetchall()
     for i in ids:
         options.append(str(i[1])+" "+i[2])#,,i[0]=ID/i[1]=first_name/i[2]=last_name
-        
+    conn.commit()
+    conn.close()    
     
     #,,takes pet names from Clients database table and appends to combo box,,,,,,,,,,,,
     conn=sqlite3.connect("tree_crm.db")
@@ -1258,6 +1224,8 @@ def book_in_window():#,Popup window
     ids=c.fetchall()
     for i in ids:
         pet_names.append(str(i[1]))#+i[2])
+    conn.commit()
+    conn.close()
 
     
     #,,takes names from Employee data base and appends to combo box,,,,,,,,,,,,
@@ -1270,6 +1238,8 @@ def book_in_window():#,Popup window
     ids=c.fetchall()
     for i in ids:
         staff.append(str(i[1])+" "+i[2])
+    conn.commit()
+    conn.close()
            
     """#,,NOT WORKING?????,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
     #,,function to put pet name in combobox linked from client name,,,,,,,,,,,,,,,,
@@ -1354,11 +1324,8 @@ def book_in_window():#,Popup window
             a=(f'Transport drop off service £{taxi_rate:.2f}')
         else:
             a=('Transport service not needed.')
-        #print(a)
         
-    
-        #messagebox.showinfo("Booking", f"You have booked {difference.days + 1} days\nin run A7.")
-        #def fin_book():
+        
         if client_combo.get()=="":
                 popupmsg("Missing Entries?\nPlease Select Client Name?")
         elif employee_combo.get()=="":
@@ -1375,13 +1342,12 @@ Total accomodation balance to pay at this time is £{str(format(total_price2,'.2
 {a}
 """
 
-                        
+            #shows message comfirming booking details            
             comfirm_details=Label(frame_1,text=greetings1,font=LARGE_FONT,fg="brown",justify=LEFT)
             comfirm_details.grid(row=1,column=1,columnspan=4,padx=20,pady=(5),sticky=W)
             confirm["state"]="normal"
             save["state"]="disabled"
-            #lb_6_ent.config(text=time.strftime("%d%m%Y-%H%M%S"))
-            #comfirm_details.delete(0,END)
+            
     
     
             #collect records from database and place in tree view.
@@ -1455,7 +1421,7 @@ Total accomodation balance to pay at this time is £{str(format(total_price2,'.2
             client_combo.set('')
             employee_combo.delete(0,END)
             lb_3_calc.config(text="")
-            kennal_combo.current(0)
+            kennal_combo.current()
             pet_name_combo.set('')
             pet_combo.current(0)
             pet_collect_combo.current(0)
@@ -1475,7 +1441,7 @@ Total accomodation balance to pay at this time is £{str(format(total_price2,'.2
         client_combo.set('')
         employee_combo.delete(0,END)
         lb_3_calc.config(text="")
-        kennal_combo.current(0)
+        kennal_combo.current()
         pet_name_combo.set('')
         pet_combo.current(0)
         pet_collect_combo.current(0)
@@ -1490,7 +1456,7 @@ Total accomodation balance to pay at this time is £{str(format(total_price2,'.2
         pet_name_combo.set('')
         employee_combo.delete(0,END)
         lb_3_calc.config(text="")
-        kennal_combo.current(0)
+        kennal_combo.set('')
         pet_combo.current(0)
         pet_collect_combo.current(0)
         pet_doff_combo.current(0)
@@ -1504,7 +1470,7 @@ Total accomodation balance to pay at this time is £{str(format(total_price2,'.2
     
     
     global enclosure
-    enclosure=['Holding penn', 'Quarantine penn']#,this list is dynamic and extends when number of enclosures entered.
+    enclosure=[]#,this list is dynamic and extends when number of enclosures entered.
     
     #,,takes max enclosure from general settings database table and appends to combo box in booking form,,,,,,,,,,,,
     conn=sqlite3.connect("tree_crm.db")
@@ -1518,6 +1484,8 @@ Total accomodation balance to pay at this time is £{str(format(total_price2,'.2
     for num in range(runs[0]):
         enclosure.append(num + 1)
     
+    conn.commit()
+    conn.close()
     
     #,,takes enclosure name from general settings database table and changes label text in booking form,,,,,,,,,,,,
     conn=sqlite3.connect("tree_crm.db")
@@ -1565,7 +1533,7 @@ Total accomodation balance to pay at this time is £{str(format(total_price2,'.2
     lbl_5.grid(row=6,column=0,padx=5,pady=4,sticky=E)#side="left")
     kennal_combo=ttk.Combobox(your_booking_frame,state='readonly',width=12)
     kennal_combo['values']=enclosure#['On Arrival', 'Holding', 'Quarantine']#Dynamic list.
-    kennal_combo.current(0)
+    kennal_combo.current()
     kennal_combo.grid(row=6,column=1,padx=5,pady=4,sticky=E)
     lbl_4=Label(your_booking_frame,text='Booked in By:')#,width=50,height=25,background="yellow")
     lbl_4.grid(row=7,column=0,padx=5,pady=4,sticky=E)#side="left")
@@ -1577,7 +1545,7 @@ Total accomodation balance to pay at this time is £{str(format(total_price2,'.2
     lbl_pet=Label(your_booking_frame,text='Pet Type:')#,width=50,height=25,background="yellow")
     lbl_pet.grid(row=8,column=0,padx=5,pady=4,sticky=E)#side="left")
     pet_combo=ttk.Combobox(your_booking_frame,state='readonly',width=12)
-    pet_combo['values']=['Dog', 'Cat', 'Other']
+    pet_combo['values']=['Dog', 'Cat']
     pet_combo.current(0)
     pet_combo.grid(row=8,column=1,padx=5,pady=4,sticky=E)
     lbl_collect=Label(your_booking_frame,text='Pick Up:')#,width=50,height=25,background="yellow")
@@ -1669,7 +1637,7 @@ def tutorial():
     tut.mainloop()
 
 #,,,,,Start of App Screen,,,(when App Starts),,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
-class LangtonAndRoberts(Tk):#,,,startup config,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+class LangtonAndRoberts(Tk):#,,,startup config,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
 
     def __init__(self, *args, **kwargs):
         Tk.__init__(self, *args, **kwargs)
@@ -1680,12 +1648,13 @@ class LangtonAndRoberts(Tk):#,,,startup config,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
         container.pack(side="top", fill="both", expand = True)
         container.grid_rowconfigure(0, weight=1)
         container.grid_columnconfigure(0, weight=1)
-        
         #,,,status bar at bottom,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
         global status_bar
         status_bar=Label(self,text=Langton_and_Roberts,height=2,relief=FLAT,anchor=CENTER,bg="#e2f723",fg="brown")
         status_bar.pack(fill=X,side=BOTTOM,ipady=2,padx=0)#,expand=True)
-        label2=Label(status_bar,text="hidden label here",bg="#e2f723",fg="black")
+        status_bar_text=StringVar()
+        status_bar_text.set("This is a hidded Label")
+        label2=Label(status_bar,textvariable=status_bar_text,bg="#e2f723",fg="black")
         label2.place(y=8,x=160)
         
         #,,Time ,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
@@ -1761,8 +1730,6 @@ class LangtonAndRoberts(Tk):#,,,startup config,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
                 #text=None
                 
                 
-        
-        
         global print_file
         #,, print file function,,,Basic file printing.
         def print_file():
@@ -1861,8 +1828,6 @@ class StartPage(Frame):#,,All Tab Windows (Services,Products,),,,,,,,,,,,,,,,,,,
         occupancy_num_home=StringVar()
         occupancy_num_home.set("Kennel Occupancy ")
         
-        
-        
         #,,, connect to database,,,,,,,,,,.
         conn=sqlite3.connect("tree_crm.db")
         #,,,create a cursor.
@@ -1877,7 +1842,6 @@ class StartPage(Frame):#,,All Tab Windows (Services,Products,),,,,,,,,,,,,,,,,,,
         conn.commit()
         #,,, close the connection
         conn.close()
-        
         
         #,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
         #,,,create database for products,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
@@ -1940,7 +1904,6 @@ class StartPage(Frame):#,,All Tab Windows (Services,Products,),,,,,,,,,,,,,,,,,,
         notebook.add(tab_6,state="hidden",text="EMPLOYEES")
         notebook.pack(expand=True,fill="both")
         
-        
         #,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
         #,,,create Services table in database,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
         conn=sqlite3.connect("tree_crm.db")
@@ -1977,7 +1940,6 @@ class StartPage(Frame):#,,All Tab Windows (Services,Products,),,,,,,,,,,,,,,,,,,
         conn.commit()
         #,,,close the connection
         conn.close()
-        
         
         #,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
         #,,takes Department names from Departments data base table and appends to combo box,,,,,,,,,,,,
@@ -2066,7 +2028,7 @@ class StartPage(Frame):#,,All Tab Windows (Services,Products,),,,,,,,,,,,,,,,,,,
             stock_date_ent.delete(0,END)
             prod_help.set("")
             
-
+            
         #,,,update product Details,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
         def update_product_details():
             if p1_ent.get()=="":
@@ -2138,10 +2100,8 @@ class StartPage(Frame):#,,All Tab Windows (Services,Products,),,,,,,,,,,,,,,,,,,
                 conn.close()
                 messagebox.showinfo("UPDATED", "Inventory record has been\nSuccessfully Updated")
             query_product_database()
+            
                 
-        
-        
-        
         #,,Delete a Product from Database,,,,,,,,,,,,,,,,,,,,,
         def remove_product(*args):
             #talk_product()
@@ -2179,7 +2139,7 @@ class StartPage(Frame):#,,All Tab Windows (Services,Products,),,,,,,,,,,,,,,,,,,
                     clear_product_view()
                     query_product_database()
                     messagebox.showinfo("SELECTION DELETED", "Records have been Deleted")
-
+                    
 
         #,,,Products frames and buttons,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
         top_label_frame1=Frame(tab_1,bd=1)  
@@ -2216,8 +2176,6 @@ class StartPage(Frame):#,,All Tab Windows (Services,Products,),,,,,,,,,,,,,,,,,,
         prod_label_frame.grid(row=0,column=0,columnspan=2,padx=10,pady=0,sticky=W)#pack(padx=30,anchor=W)
         product_tree_frame=Frame(prod_label_frame)  
         product_tree_frame.grid(row=0,column=0,padx=5,pady=5)#pack(pady=10,padx=10)
-        #prod_command_frame=LabelFrame(prod_label_frame,text="Command Buttons")#,bg="#e6f5f3")
-        #prod_command_frame.grid(row=1,column=0,padx=5,pady=5,sticky=SE)
         
         #,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
         #,,,Product overview frame and entries,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
@@ -2266,7 +2224,6 @@ class StartPage(Frame):#,,All Tab Windows (Services,Products,),,,,,,,,,,,,,,,,,,
         lbl_13.grid(row=9,column=0,padx=5,pady=5,sticky=E)#side="left")
         stock_date_ent=Entry(supplier_frame,relief=FLAT,fg="blue",bg="systembuttonface")#,relief=FLAT)
         stock_date_ent.grid(row=9,column=1,padx=5,pady=5,sticky=E)
-        
         lbl_14=Label(supplier_frame,text='Last Sold:')#,width=50,height=25,background="yellow")
         lbl_14.grid(row=10,column=0,padx=5,pady=5,sticky=E)#side="left")
         last_sale_ent=Entry(supplier_frame,relief=FLAT,fg="blue",bg="systembuttonface")#,relief=FLAT)
@@ -2758,29 +2715,11 @@ class StartPage(Frame):#,,All Tab Windows (Services,Products,),,,,,,,,,,,,,,,,,,
         home_box6_reports.bind("<Enter>",employ_home_hover)
         home_box6_reports.bind("<Leave>",employ_home_hover_leave)
         
-        #name_lab=Label(tab_0,text=company_name,bg="white",font="helvetica, 40",fg="#e2f723",justify=CENTER)
-        #name_lab.grid(row=1,column=0,sticky=S)
-        
-        #,,,load an Image,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
-        #networkpeople=(Image.open("network.png"))
-        #width, height=networkpeople.size
-        #width_new=int(width/3)
-        #height_new=int(width/3)
-        #networkpeople_resized=networkpeople.resize((width_new,height_new))#this will resizes the image keep ratio.
-        #networkpeople=networkpeople.resize((280,280))#resizes the image.
-        #networkpeoplePH=ImageTk.PhotoImage(networkpeople)
-        #network_label=tk.Label(tab_0,image=networkpeoplePH)
-        #network_label.image=networkpeoplePH#this must be put to show the image.
-        #network_label.grid(row=0,column=0,sticky=E)
         #,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
         #,,,,,,,,,,,,,,,,,,,,,,,Inventory & Products Tab main screen,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
         serviceinfo=StringVar()
         prod_lbl_frame=LabelFrame(box_frame3,text="Add new product details",font=20)#,bg="#e6f5f3")
         prod_lbl_frame.grid(row=1,column=0,padx=10,pady=0,ipadx=0,ipady=0,sticky=N)#fill="x",expand="yes"
-        
-        #,,,Product Inventory Frame,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
-        #invent_frame=LabelFrame(box_frame3,text="Inventry",font=20)#,bg="#e6f5f3")
-        #invent_frame.grid(row=2,column=0,padx=10,pady=10,sticky=W)
         
         #,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
         #,,,product overview command buttons,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
@@ -2791,10 +2730,7 @@ class StartPage(Frame):#,,All Tab Windows (Services,Products,),,,,,,,,,,,,,,,,,,
         clear_button.grid(row=0,column=0,padx=3,pady=2)#,ipadx=5,ipady=5)
         update_button=HoverButton(comand_frame,text='UPDATE DETAILS',cursor="hand2",activebackground = '#e2f723',fg="black",command=update_product_details)#lambda: popupmsg('Not supported just yet!'))
         update_button.grid(row=0,column=1,padx=3,pady=2)#,ipadx=5,ipady=5)
-        #search_button=Button(comand_frame,text='Print',cursor="hand2",command=lambda: popupmsg('Not supported just yet!'))
-        #search_button.grid(row=0,column=2,padx=2,pady=2)#,ipadx=5,ipady=5)
-        #save_as_button=Button(comand_frame,text='Save As',cursor="hand2",command=lambda: popupmsg('Not supported just yet!'))
-        #save_as_button.grid(row=0,column=3,padx=2,pady=2)#,ipadx=5,ipady=5)
+        
         
         button1_product=HoverButton(button_label_frame,text="",font=LARGE_FONT,activebackground = 'white',cursor="hand2",bg="light blue",fg="black",relief=FLAT)
         button1_product.grid(row=0,column=0,padx=1,pady=1,ipady=5,ipadx=10)
@@ -2855,22 +2791,17 @@ class StartPage(Frame):#,,All Tab Windows (Services,Products,),,,,,,,,,,,,,,,,,,
             servicetitle.set(" Add New Service")
             serviceinfo.set("")
             query_services_database()
-            #services_tree.delete(query_services_database())
-            #check_button.configure(fg="black")
-            #query_services_database()
             
             
-        
         def help_services():
             a=(f'')
             b=(f'')
-            c=(f'Select a service to alter or delete.\n\n')
+            c=(f'Select a service to delete or update.\n\n')
             d=(f'The SEARCH function will help.\n\n')
             e=(f'update as needed then click UPDATE or DELETE\n\n')
             f=(f'WARNING... DELETE will permanently remove from database.\n')
             g=(f'(you will have the option to continue or cancel the deletion.)\n\n')
             h=(f'')
-            
             ans=c+d+e+f+g
             serviceinfo.set(ans)
             
@@ -2960,7 +2891,6 @@ class StartPage(Frame):#,,All Tab Windows (Services,Products,),,,,,,,,,,,,,,,,,,
         services_tree_frame=LabelFrame(box_frame6,bd=0)#,fg="#e6f5f3")
         services_tree_frame.grid(row=0,column=0,padx=20)
         
-        
         #,,,Create Treeview Scroll for products,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
         tree_scroll_y=Scrollbar(services_tree_frame)
         tree_scroll_y.pack(side=RIGHT,fill=Y)
@@ -2995,15 +2925,12 @@ class StartPage(Frame):#,,All Tab Windows (Services,Products,),,,,,,,,,,,,,,,,,,
         services_tree.tag_configure("evenrow",background="lightblue")
         query_services_database()
         
-        
-        
         #,,, Select a Record in service tree view,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
         def select_service_record(e):
             #code to ignore header being clicked.
             region_clicked=services_tree.identify_region(e.x, e.y)
             if region_clicked not in ('services_tree','cell'):
                 return
-                #print("Clicked Header")
             else:
                 #button_del_product["state"]="normal"
                 #,,,Clear entry boxes to enter tree data.
@@ -3025,7 +2952,6 @@ class StartPage(Frame):#,,All Tab Windows (Services,Products,),,,,,,,,,,,,,,,,,,
                 rate.insert(0,format(float(service_values[3]),'.2f'))
                 type_combo.insert(0,service_values[4])
                 serv_ref.insert(0,service_values[0])
-            
                 service_save_button["state"]="disabled"
                 servicetitle.set(" Update or Delete this Service")
             
@@ -3245,9 +3171,8 @@ class StartPage(Frame):#,,All Tab Windows (Services,Products,),,,,,,,,,,,,,,,,,,
                 
                 num=num+1
         
-            #,,,commit the changes
+            
             conn.commit()
-            #,,,close the connection
             conn.close()
             
             sev_name.delete(0,END)
@@ -3307,8 +3232,6 @@ class StartPage(Frame):#,,All Tab Windows (Services,Products,),,,,,,,,,,,,,,,,,,
                 service_save_button["state"]="normal"
                 
                 
-        
-        
         label_1=Label(details_frame,text='Department:')#,bg="#e6f5f3")
         label_1.grid(row=3,column=0,padx=5,pady=5,sticky=W)
         type_combo=ttk.Combobox(details_frame,width=25)#,state="readonly")
@@ -3319,8 +3242,6 @@ class StartPage(Frame):#,,All Tab Windows (Services,Products,),,,,,,,,,,,,,,,,,,
         label_ref.grid(row=4,column=0,padx=5,pady=5,sticky=W)
         serv_ref=Entry(details_frame,width=20,relief=FLAT,bg="systembuttonface")
         serv_ref.grid(row=4,column=1,sticky=W)
-        
-        
         
         #,,,Service details Buttons,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
         button_frame=LabelFrame(details_frame,text="",bd=0)#,bg="#e6f5f3")
@@ -3398,8 +3319,8 @@ class StartPage(Frame):#,,All Tab Windows (Services,Products,),,,,,,,,,,,,,,,,,,
         '''
         button_1_Service=HoverButton(button_label_frame,text="",font=LARGE_FONT,activebackground = 'white',cursor="hand2",bg="light blue",fg="black",relief=FLAT)
         button_1_Service.grid(row=0,column=0,padx=1,pady=1,ipady=5,ipadx=10)
-        button_refresh_Service=HoverButton(button_label_frame,text="REFRESH",font=LARGE_FONT,activebackground = 'white',cursor="hand2",bg="light blue",fg="black",relief=FLAT,command=query_services_database)#lambda:popupmsg("Not yet completed"))
-        button_refresh_Service.grid(row=0,column=1,padx=1,pady=1,ipady=5,ipadx=10)
+        #button_refresh_Service=HoverButton(button_label_frame,text="REFRESH",font=LARGE_FONT,activebackground = 'white',cursor="hand2",bg="light blue",fg="black",relief=FLAT,command=query_services_database)#lambda:popupmsg("Not yet completed"))
+        #button_refresh_Service.grid(row=0,column=1,padx=1,pady=1,ipady=5,ipadx=10)
         #button_update_Service=HoverButton(button_label_frame,text="UPDATE",font=LARGE_FONT,activebackground = 'white',cursor="hand2",bg="light blue",fg="black",relief=FLAT,command=update_service_details)#lambda:popupmsg("Not yet completed"))
         #button_update_Service.grid(row=0,column=2,padx=1,pady=1,ipady=5,ipadx=10)
         button_search_Service=HoverButton(button_label_frame,text="SEARCH",font=LARGE_FONT,activebackground = 'white',cursor="hand2",bg="light blue",fg="black",relief=FLAT,command=search_service)
@@ -3410,7 +3331,6 @@ class StartPage(Frame):#,,All Tab Windows (Services,Products,),,,,,,,,,,,,,,,,,,
         button_help_Service.grid(row=0,column=5,padx=1,pady=1,ipady=5,ipadx=10)
         button_exit_Service=HoverButton(button_label_frame,text="EXIT",font=LARGE_FONT,activebackground = 'white',cursor="hand2",bg="light blue",fg="black",relief=FLAT,command=lambda:notebook.tab(tab_2,state="hidden"))
         button_exit_Service.grid(row=0,column=6,padx=1,pady=1,ipady=5,ipadx=10)
-        
         
         #,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
         #,,,TAB 3 Pet Information,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
@@ -3538,19 +3458,19 @@ class StartPage(Frame):#,,All Tab Windows (Services,Products,),,,,,,,,,,,,,,,,,,
         pet_tree["columns"]=("Owner","Name","Age","Pet ID","Status","Type","DOB","Breed","Size","Micro chip","Chip ID","Gender","Weight","Colour","Temper","Reg date","Health","Attributes",)
         #,,,Format the Columns,,,
         pet_tree.column("#0",width=0,stretch=NO)
-        pet_tree.column("Owner",anchor=W,width=90)
+        pet_tree.column("Owner",anchor=W,width=120)
         pet_tree.column("Name",anchor=W,width=90)
-        pet_tree.column("Age",anchor=W,width=40)
+        pet_tree.column("Age",anchor=CENTER,width=40)
         pet_tree.column("Pet ID",anchor=CENTER,width=40)
         pet_tree.column("Status",anchor=W,width=60)
         pet_tree.column("Type",anchor=W,width=40)
         pet_tree.column("DOB",anchor=W,width=70)
-        pet_tree.column("Breed",anchor=W,width=100)
+        pet_tree.column("Breed",anchor=W,width=70)
         pet_tree.column("Size",anchor=CENTER,width=50)
-        pet_tree.column("Micro chip",anchor=W,width=80)
+        pet_tree.column("Micro chip",anchor=CENTER,width=80)
         pet_tree.column("Chip ID",anchor=W,width=80)
         pet_tree.column("Gender",anchor=W,width=50)
-        pet_tree.column("Weight",anchor=W,width=50)
+        pet_tree.column("Weight",anchor=CENTER,width=50)
         pet_tree.column("Colour",anchor=W,width=70)
         pet_tree.column("Temper",anchor=W,width=70)
         pet_tree.column("Reg date",anchor=W,width=80)
@@ -3689,7 +3609,7 @@ class StartPage(Frame):#,,All Tab Windows (Services,Products,),,,,,,,,,,,,,,,,,,
         
         #,,, Select Record from pet treeviw(bind),,,,,,,,,,,,,,,,,,
         def select_pet_record(e):
-            dog_photo.set("PHOTO OF DOG\nPLACE HEAR")
+            global pet_photo_label
             #code to ignore header being clicked.
             region_clicked=pet_tree.identify_region(e.x, e.y)
             if region_clicked not in ('pet_tree','cell'):
@@ -3723,6 +3643,7 @@ class StartPage(Frame):#,,All Tab Windows (Services,Products,),,,,,,,,,,,,,,,,,,
                 reg_date=values[15]
                 health=values[16]
                 attributes=values[17]
+                #pet_photo=values[18]#pet photo
                 secret_id.delete(0,END)
                 secret_id.insert(0,values[3])
                 secret_pet_name.delete(0,END)
@@ -3740,37 +3661,43 @@ class StartPage(Frame):#,,All Tab Windows (Services,Products,),,,,,,,,,,,,,,,,,,
                 #f=(f'TOTAL BALANCE for the accommodation only £{total_price}\n')
                 g=a+a1+a2+a3+a4+a5+a6
                 petinfo.set(g)
+                #dog_photo.set("PHOTO OF DOG\nPLACE HEAR")
+                #dog_photo.set(pet_photo)#Shows pet photo on screen.
+                #,,,Show an Image,(pet photo),,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+                pet_image=(Image.open("michell_photo.jpg"))#("michell_photo.jpg"))
+                width, height=pet_image.size
+                width_new=int(width/3)
+                height_new=int(width/3)
+                pet_image_resized=pet_image.resize((width_new,height_new))#this will resizes the image keep ratio.
+                pet_image=pet_image.resize((100,100))#resizes the image.
+                pet_imagePH=ImageTk.PhotoImage(pet_image)
+                pet_photo_label=tk.Label(tab_3,image=pet_imagePH)
+                pet_photo_label.image=pet_imagePH#this must be put to show the image.
+                pet_photo_label.place(x=400,y=315)#grid(row=0,column=1,padx=20,pady=20)
         
         #,,, Bind the tree,,,,when clicked,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
         pet_tree.bind("<ButtonRelease-1>",select_pet_record)
         
         
-        def convert_pick():
+        def convert_pick():#converts file to save to db.
             filename="michell_photo.jpg"
             with open(filename, 'rb') as file:
                 photo=file.read()
             return photo
         
-        
-        
-        def pet_photo():
-            datestamp="2022-08-09"
-            dog_name="Jack Russel"
+        def get_photo():
             photo=convert_pick()
-            
             #,,, Create a database or connect to one.
             conn=sqlite3.connect("tree_crm.db")
             #,,,create a cursor.
             c=conn.cursor()
             #,,,get row using ID,,,,,,,
-            #c.execute("CREATE TABLE IF NOT EXISTS pet_images(datestamp TEXT, dog_name TEXT, photo BLOB)")
-            c.execute("INSERT INTO pet_images(datestamp, dog_name, photo) VALUES (?,?,?)",(datestamp, dog_name, photo))
-            
-            
+            c.execute(f"UPDATE customer_pets SET photo = ? WHERE oid= 4",([photo]))#WORKING
+            #c.execute("INSERT INTO pet_images(datestamp, dog_name, photo) VALUES (?,?,?)",(datestamp, dog_name, pet_photo))
             conn.commit()
             c.close()
             
-        #pet_photo()
+        #get_photo()
         
         #https://youtu.be/vvq6xRziKns
         def play_video():
@@ -5251,7 +5178,7 @@ class StartPage(Frame):#,,All Tab Windows (Services,Products,),,,,,,,,,,,,,,,,,,
         exit_program_button1 = HoverButton(can_4, text="  CLOSE  ",relief=FLAT,activebackground="red",cursor="hand2",bg="#e2f723",bd=0,fg="black",height=5, command = close_app)
         exit_program_button1.grid(row=0,rowspan=3,column=9,pady=0,padx=2)#pack()
        
-#,,,,,Sytem Info Page,,(page one),,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,        
+#,,,,,Sytem Info Page,,(page one),,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,        
 class PageOne(Frame):#,,Anything for Page One System Info put hear,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
     def __init__(self, parent, controller):
         Frame.__init__(self, parent)
@@ -5697,9 +5624,6 @@ class PageOne(Frame):#,,Anything for Page One System Info put hear,,,,,,,,,,,,,,
             global count
             count = 0 #,,,start of ID
             for record in records:
-                #print(record)
-                #standard_rate=format(standard_rate,'.2f')
-                #standard_rate=float(standard_rate)
                 enclosure_ent.insert(0,record[0])
                 capacity_ent.insert(0,record[1])
                 length_ent_combo.insert(0,record[2])
@@ -5716,8 +5640,6 @@ class PageOne(Frame):#,,Anything for Page One System Info put hear,,,,,,,,,,,,,,
             conn.close()
             system_info.set("")
             
-              
-
         
         #,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
         #,,(Kennel) Boarding frame,,(General settings),,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
@@ -5762,9 +5684,6 @@ class PageOne(Frame):#,,Anything for Page One System Info put hear,,,,,,,,,,,,,,
         category_ent = Entry(boarding_frame,width=10,state="disabled")
         category_ent.grid(row=3,column=1,pady=5,sticky=W)
         
-        
-        
-        
         lbl_rate_1 = Label(boarding_frame, text = 'Standard Rate 1:  £',fg='#347083')
         lbl_rate_1.grid(row=3, column=2, padx=5, pady=5,sticky=E)
         standard_ent = Entry(boarding_frame,width=7)
@@ -5802,7 +5721,7 @@ class PageOne(Frame):#,,Anything for Page One System Info put hear,,,,,,,,,,,,,,
         lb1.grid(row=0,column=0,padx=40,pady=0)
                                     
 #,,,,,Client Database,,(Page Two),,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
-class PageTwo(Frame):#,,Anything for Client Database put hear,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+class PageTwo(Frame):#,,Anything for Client Database put hear,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
 
     def __init__(self, parent, controller):
         Frame.__init__(self, parent)
@@ -6362,7 +6281,7 @@ class PageTwo(Frame):#,,Anything for Client Database put hear,,,,,,,,,,,,,,,,,,,
         #button3.pack(pady=5)
         query_database()#,,,shows tree table on start up.
         
-#,,,,,Booking records,,(page Three),,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+#,,,,,Booking records,,(page Three),,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
 class PageThree(Frame):#,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
 
     def __init__(self, parent, controller):
@@ -6861,7 +6780,6 @@ class PageThree(Frame):#,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
         #button_6=HoverButton(can_3,text="CONFIRM\nPAYMENT",font=LARGE_FONT,activebackground = 'white',cursor="hand2",bg="light blue",fg="black",relief=FLAT,width=15,state="disabled",command=select_bookings_record_for_invoice)#lambda:popupmsg("Not yet completed"))
         #button_6.place(x=870,y=400)
         
-
 
 app = LangtonAndRoberts()
 
