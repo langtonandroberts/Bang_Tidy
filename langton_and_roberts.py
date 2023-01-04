@@ -62,6 +62,11 @@ import csv
 import random 
 import cv2 
 import numpy 
+from dateutil.relativedelta import relativedelta
+from operator import attrgetter
+
+
+
 
 global engine  
 global open_status_name
@@ -81,14 +86,15 @@ boading_rate_1=format(boading_rate_1,'.2f')
 
 #def ring():
     #app.bell()
-        
-#,,,opens file search window,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,    
+    
+
+
+
+#,,,opens file search window,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,    
 def callback():
     name= fd.askopenfilename()
     print(name)
     
-
-
 def popupmsg(msg):
     popup = Tk()
     #popup.overrideredirect(True)
@@ -101,7 +107,6 @@ def popupmsg(msg):
     popup.resizable(False,False)
     popup.geometry('300x200+700+400')
     popup.mainloop()
-
 
 #from PIL import ImageTk,Image
 class HoverButton(Button):
@@ -119,16 +124,17 @@ class HoverButton(Button):
     def on_leave(self, e):
         self.config(background=self.default_Background)
 
-#,,,,password window,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
-'''class Login:
+#,,,,password window,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+"""class Login:
     def __init__(self,root):
         self.root=root
         self.root.title("Login Screen")
         self.root.geometry("1199x600+200+80")
         self.root.resizable(False,False)
         self.root.overrideredirect(True)
-        self.root.config(background="#a6a6a6")
+        self.root.config(background="black")#"#a6a6a6")
         #self.root.after(3000)
+        copyright=u"\u00A9"#this is the copyright sign.
         #background image
         #self.bg=PhotoImage(file="Picture1.png")
         #self.bg_image=Label(self.root,image=self.bg).place(x=0,y=0,relheight=1,relwidth=1)
@@ -136,8 +142,10 @@ class HoverButton(Button):
         #,,,login frame.
         Frame_login=Frame(self.root,bg="white")
         Frame_login.place(x=360,y=100,width=440,height=380)
-        lb1_copyright=Label(self.root,text="Copyright\nAll rights reserved",font=("Goudy old style",15,"bold"),fg="white",bg="#a6a6a6",justify=LEFT).place(x=20,y=540)
-        lb2_copyright=Label(self.root,text="\nLangton & Roberts",font=("Goudy old style",15,"bold"),fg="white",bg="#a6a6a6",justify=LEFT).place(x=999,y=540)
+        lb1_copyright=Label(self.root,text=copyright +" Langton & Roberts\nAll rights reserved",font=("Goudy old style",15,"bold"),fg="white",bg="black",justify=LEFT)
+        lb1_copyright.place(x=20,y=540)
+        #lb2_copyright=Label(self.root,text="\nLangton & Roberts",font=("Goudy old style",15,"bold"),fg="white",bg="black",justify=LEFT)
+        #lb2_copyright.place(x=999,y=540)
         
         def register_user():
             global t1r
@@ -194,7 +202,7 @@ class HoverButton(Button):
         #,,,title and subtitle
         title=Label(Frame_login,text="Login Here",font=("Impact",35,"bold"),fg="orange",bg="white").place(x=65,y=30)
         subtitle=Label(Frame_login,text="Kennel Managment System.",font=("Goudy old style",15,"bold"),fg="#1d1d1d",bg="white").place(x=65,y=100)
-        
+
         #,,username
         lb1_user=Label(Frame_login,text="Username",font=("Goudy old style",15,"bold"),fg="gray",bg="white").place(x=70,y=140)
         self.username=Entry(Frame_login,font=("Goudy old style",15),bg="#E7E6E6")
@@ -228,8 +236,6 @@ class HoverButton(Button):
         except:
             messagebox.showerror("ERROR","Please provide Username and Password",parent=self.root)
                 
-                
-    
     def check_function(self):
         if self.username.get()=="" or self.password.get()=="":
             messagebox.showerror("ERROR","All Feilds are required",parent=self.root)
@@ -237,15 +243,15 @@ class HoverButton(Button):
             messagebox.showerror("ERROR","Invalid Username or Password",parent=self.root)
         else:
             messagebox.showinfo("LOGIN SUCSESSFUL", f"Welcome {self.username.get()}\nYou have successfully loged in\n\nPress ok to open application")
+            
+            #self.root.after(5000) 
             root.destroy()
-            #self.root.after(2000) 
-        
-                   
+                          
 root=Tk()
 obj=Login(root)
-root.mainloop()'''
+root.mainloop()"""
   
-#,,,New Supplier Popup Window,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,    
+#,,,New Supplier Popup Window,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,    
 def settings_window():#,Popup window,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
     #,,,New Supplier Form Popup Window,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,   
     #ring()
@@ -417,16 +423,21 @@ def settings_window():#,Popup window,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
     exit_button=HoverButton(button_frame,text="EXIT FORM",font=LARGE_FONT,activebackground='orange',cursor="hand2",bg="#e2f723",fg="black",command=settings_form.destroy)
     exit_button.grid(row=0,column=3,padx=2,pady=2) 
              
-#,,,New Client Registration Form Popup Window,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+#,,,New Client Registration Form Popup Window,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
 def quick_reg_window():#,Popup window
+    
     #ring()
     quick_reg_window = Toplevel()
+    quick_reg_window.transient(quick_reg_window.master)#hide minimise
+    quick_reg_window.grab_set()#only this window active untill closed
     quick_reg_window.title("New Client Register Form (For new client's only)")
     quick_reg_window.geometry('800x310+360+240')
     quick_reg_window.resizable(False,False)
+    
     frame_1 = Frame(quick_reg_window, height=HEIGHT, width=WIDTH)
     frame_1.pack()
     #booking_form.overrideredirect(True)#,,removes top title from window.
+    
     
     #,,Master frame Quick Client Register Form,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
     master_frame=LabelFrame(frame_1,text='Quick Client Registration Form')
@@ -578,7 +589,6 @@ def quick_reg_window():#,Popup window
     exit_button=HoverButton(button_command,text="EXIT FORM",cursor="hand2",font=LARGE_FONT,activebackground='orange',bg="#e2f723",fg="black",command=quick_reg_window.destroy)
     exit_button.grid(row=0,column=3,padx=2,pady=2,sticky="E")
     
-
 #,,,New product form
 def new_product_window():#,Popup window
     #app.bell()
@@ -1007,12 +1017,14 @@ def pet_window():#,Popup window
     #,,,create a cursor.
     c=conn.cursor()
     pet=[]
-    sqlpet=("SELECT rowid,  pet_name FROM customer_pets")
+    #,SELECT DISTINCT is no dutlicat names.
+    sqlpet=("SELECT DISTINCT  pet_name FROM customer_pets")
     #,,,get row using ID,,,,,,,
     c.execute(sqlpet)
     ids=c.fetchall()
     for i in ids:
-        pet.append(str(i[1]))#+" ")+i[2])
+        #Need to put owners surname at the end??.
+        pet.append(str(i[0]))#+" ")+i[2])
     conn.commit()
     conn.close()
         
@@ -1155,9 +1167,9 @@ def book_in_window():#,Popup window
     #booking_form.config(bg="lightblue")
     
     #,,Your Booking Frame,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
-    frame_1 = Frame(booking_window)#, height=HEIGHT, width=WIDTH)
-    frame_1.grid(row=0,column=0,padx=0,pady=0)
-    your_booking_frame=LabelFrame(frame_1,text="Your Booking",font=LARGE_FONT)
+    #frame_1 = Frame(booking_window)#, height=HEIGHT, width=WIDTH)
+    #frame_1.grid(row=0,column=0,padx=0,pady=0)
+    your_booking_frame=LabelFrame(booking_window,text="Your Booking",font=LARGE_FONT)
     your_booking_frame.grid(row=0,rowspan=4,column=0,padx=(20,5),pady=10,ipadx=0,ipady=2)#,fill="x",expand="yes")  
     #startup_data=[('test client', 'test pet', '1','Admin staff', 'Dog', 'No', 'No', 'Standard', '12/12/2021', '14/12/2021', '3', '10.00', '36.00', '12/12/2021')]
     dt_stamp=time.strftime("%d%m%Y-%H%M%S")
@@ -1218,12 +1230,12 @@ def book_in_window():#,Popup window
     conn=sqlite3.connect("tree_crm.db")
     c=conn.cursor()
     pet_names=[]
-    sql_pet_name=("SELECT rowid,  pet_name FROM customer_pets")
+    sql_pet_name=("SELECT DISTINCT  pet_name FROM customer_pets")#("SELECT rowid,  pet_name FROM customer_pets")
     #,,,get row using ID,,,,,,,
     c.execute(sql_pet_name)
     ids=c.fetchall()
     for i in ids:
-        pet_names.append(str(i[1]))#+i[2])
+        pet_names.append(str(i[0]))#(i[1]))#+i[2])
     conn.commit()
     conn.close()
 
@@ -1232,12 +1244,12 @@ def book_in_window():#,Popup window
     conn=sqlite3.connect("tree_crm.db")
     c=conn.cursor()
     staff=[]
-    sql_employee=("SELECT rowid,  first_name, last_name FROM employees")
+    sql_employee=("SELECT rowid,  first_name, last_name FROM employees WHERE date_left == 'No'")
     #,,,get row using ID,,,,,,,
     c.execute(sql_employee)
     ids=c.fetchall()
     for i in ids:
-        staff.append(str(i[1])+" "+i[2])
+        staff.append(str(i[1])+" "+i[2])#first and last name.
     conn.commit()
     conn.close()
            
@@ -1267,8 +1279,6 @@ def book_in_window():#,Popup window
         difference=grab_in_date.get_date() - grab_out_date.get_date()
         lb_3_calc.config(text=f"{difference.days + 1}")
         time_stamp1=time.time()
-        #print(time_stamp1)
-        #print(time.ctime(time_stamp1))
         
         #,,, connect to database,,,,,,,,,,.
         conn=sqlite3.connect("tree_crm.db")
@@ -1317,11 +1327,11 @@ def book_in_window():#,Popup window
         
         #if statements for taxi charge.
         if pick_up == 'Yes' and drop_off =='Yes':
-            a=(f"Transport service (pick-up & drop-off) £{both:.2f}")
+            a=(f"Transport service (pick-up & drop-off) £{both:.2f}\nto be paid on collection of {pet_name_combo.get()}.")
         elif pick_up == 'Yes' and drop_off == 'No':
-            a=(f"Transport collection service £{taxi_rate:.2f}")
+            a=(f"Transport collection service £{taxi_rate:.2f}\nto be paid on collection of {pet_name_combo.get()}.")
         elif pick_up == 'No' and drop_off == 'Yes':
-            a=(f'Transport drop off service £{taxi_rate:.2f}')
+            a=(f"Transport drop off service £{taxi_rate:.2f}\nto be paid on {pet_name_combo.get()}'s arrival with us.")
         else:
             a=('Transport service not needed.')
         
@@ -1337,14 +1347,14 @@ to stay from {arrival} untill {depart}
 to be alocated to {name} {kennal_combo.get()} on arrival.
  
 Charge will be {stay} days of {care_combo.get()} care plan at £{str(format(care,'.2f'))}+vat 
-Total accomodation balance to pay at this time is £{str(format(total_price2,'.2f'))}
+Total balance to pay at this time is £{str(format(total_price2,'.2f'))}
 
 {a}
 """
 
             #shows message comfirming booking details            
-            comfirm_details=Label(frame_1,text=greetings1,font=LARGE_FONT,fg="brown",justify=LEFT)
-            comfirm_details.grid(row=1,column=1,columnspan=4,padx=20,pady=(5),sticky=W)
+            comfirm_details=Label(booking_window,text=greetings1,font=LARGE_FONT,fg="brown",justify=LEFT)
+            comfirm_details.grid(row=1,column=1,columnspan=4,padx=20,sticky=W)
             confirm["state"]="normal"
             save["state"]="disabled"
             
@@ -1471,6 +1481,9 @@ Total accomodation balance to pay at this time is £{str(format(total_price2,'.2
     
     global enclosure
     enclosure=[]#,this list is dynamic and extends when number of enclosures entered.
+    units=[]
+    arival_dates=[]
+    checkout_dates=[]   
     
     #,,takes max enclosure from general settings database table and appends to combo box in booking form,,,,,,,,,,,,
     conn=sqlite3.connect("tree_crm.db")
@@ -1486,6 +1499,18 @@ Total accomodation balance to pay at this time is £{str(format(total_price2,'.2
     
     conn.commit()
     conn.close()
+    '''#this shows empty enclosures in combobox
+    c.execute("SELECT  enclosure, in_date, out_date FROM kennel_bookings")
+    dts=c.fetchall()
+    for i in dts:
+        checkout_dates.append(i[2])#first and last name.
+        arival_dates.append(i[1])#first and last name.
+        units.append(i[0])
+    units[:]=list(set(units))#removes duplicate numbers from list.
+    enclosure= [item for item in enclosure if item not in units]#this is a list comprehention. finds kennels not booked
+    print(enclosure)
+    print(units)
+    print(arival_dates)'''
     
     #,,takes enclosure name from general settings database table and changes label text in booking form,,,,,,,,,,,,
     conn=sqlite3.connect("tree_crm.db")
@@ -1499,6 +1524,7 @@ Total accomodation balance to pay at this time is £{str(format(total_price2,'.2
     
     lb_date=Label(your_booking_frame,text='Todays Date:')#,width=50,height=25,background="yellow")
     lb_date.grid(row=0,column=0,padx=5,pady=4,sticky=E)#side="left")
+    
     lbl_cust=Label(your_booking_frame,text='Client Name:')#,width=50,height=25,background="yellow")
     lbl_cust.grid(row=1,column=0,padx=5,pady=4,sticky=E)#side="left")
     client_combo=ttk.Combobox(your_booking_frame,width=17)#,textvariable=sel)
@@ -1510,10 +1536,10 @@ Total accomodation balance to pay at this time is £{str(format(total_price2,'.2
     lbl_pet.grid(row=2,column=0,padx=5,pady=4,sticky=E)#side="left")
     pet_name_combo=ttk.Combobox(your_booking_frame,width=12)#,textvariable=sel)
     pet_name_combo['values']=pet_names
-    
     #pet_name_combo.current()
     #pet_name_combo.bind("<<ComboboxSelected>>",get_pet_name)
     pet_name_combo.grid(row=2,column=1,padx=5,pady=4,sticky=E)
+    
     lb_1=Label(your_booking_frame,text="Arival Date:")
     lb_1.grid(row=3,column=0,padx=5,pady=4,sticky=E)
     #date entry info #https://youtu.be/zn7I0xIsRTc
@@ -1573,7 +1599,7 @@ Total accomodation balance to pay at this time is £{str(format(total_price2,'.2
     lb_6_ent.grid(row=12,column=1,padx=5,pady=4,sticky=W)
     
     #,,Command Button Frame,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
-    command_button_frame=LabelFrame(your_booking_frame,text="")
+    command_button_frame=Frame(your_booking_frame)
     command_button_frame.grid(row=13,column=0,columnspan=2,padx=5,pady=0,ipadx=0,ipady=0,sticky=W)#,fill="x",expand="yes")
     save=HoverButton(command_button_frame,text="CONTINUE",cursor="hand2",activebackground="#e2f723",command=lambda:calculate(date_in_picker,date_out_picker))#lambda: popupmsg('Not supported just yet!'))
     save.grid(row=0,column=1,padx=3,pady=2)
@@ -1583,15 +1609,15 @@ Total accomodation balance to pay at this time is £{str(format(total_price2,'.2
     exit.grid(row=0,column=3,padx=3,pady=2)
     
     #,,,Comfirm your booking frame,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
-    comfirm_frame=LabelFrame(frame_1,text="Comfirming Your Booking",font=LARGE_FONT)#,width=515,height=100)
-    comfirm_frame.grid(row=0,column=1,columnspan=2,padx=20,pady=(20,40),ipadx=2,ipady=2,sticky=N)#,fill="x",expand="yes")  
+    comfirm_frame=LabelFrame(booking_window,text="Comfirming Your Booking",font=LARGE_FONT)#,width=515,height=100)
+    comfirm_frame.grid(row=0,column=1,columnspan=2,padx=20,pady=(10,10),ipadx=2,ipady=2,sticky=N)#,fill="x",expand="yes")  
     comfirm_1=Label(comfirm_frame,text="Bookings can only be made for registered clients.\nunless in 'EMERGENCY' or 'GUEST'.\nPlease register your clients details first.",justify=LEFT)
     comfirm_1.grid(row=0,column=0,padx=5,pady=4,sticky=E) 
     
-    cancel=HoverButton(frame_1,text="CANCEL",cursor="hand2",activebackground="#e2f723",command=cancel_comfirm)#lambda:popupmsg("Not yet completed"))
-    cancel.grid(row=2,column=2,padx=3,pady=2,sticky=SE)
-    confirm=HoverButton(frame_1,text="CONFIRM THIS BOOKING",cursor="hand2",bg="orange",fg="black",state="disabled",command=go_ahead)
-    confirm.grid(row=2,column=3,padx=3,pady=2,sticky=SW)
+    cancel=HoverButton(booking_window,text="CANCEL",cursor="hand2",activebackground="#e2f723",command=cancel_comfirm)#lambda:popupmsg("Not yet completed"))
+    cancel.place(y=411, x=531)#grid(row=2,column=2,padx=3,pady=2,sticky=SE)
+    confirm=HoverButton(booking_window,text="CONFIRM THIS BOOKING",cursor="hand2",bg="orange",fg="black",state="disabled",command=go_ahead)
+    confirm.place(y=411, x=590)#grid(row=2,column=3,padx=3,pady=2,sticky=SW)
          
 #,,,,Tutorial step through popup windows,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
 def tutorial():
@@ -1636,8 +1662,8 @@ def tutorial():
 
     tut.mainloop()
 
-#,,,,,Start of App Screen,,,(when App Starts),,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
-class LangtonAndRoberts(Tk):#,,,startup config,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+#,,,,,Start of App Screen,,,(when App Starts),,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+class LangtonAndRoberts(Tk):#,,,startup config,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
 
     def __init__(self, *args, **kwargs):
         Tk.__init__(self, *args, **kwargs)
@@ -1654,12 +1680,12 @@ class LangtonAndRoberts(Tk):#,,,startup config,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
         status_bar.pack(fill=X,side=BOTTOM,ipady=2,padx=0)#,expand=True)
         status_bar_text=StringVar()
         status_bar_text.set("This is a hidded Label")
-        label2=Label(status_bar,textvariable=status_bar_text,bg="#e2f723",fg="black")
+        label2=Label(status_bar,textvariable=status_bar_text,bg="#e2f723",fg="brown")
         label2.place(y=8,x=160)
         
         #,,Time ,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
         def start():
-            text=time.strftime("%H:%M:%S %p")#("%A  %d/%m/%Y  %H:%M:%S %p")
+            text=time.strftime("%I:%M:%S %p")#("%A  %d/%m/%Y  %H:%M:%S %p")
             label.config(text=text)
             label.after(200,start)
         label=Label(status_bar,font=("ds-digital",9),bg="#e2f723",fg="black")
@@ -1747,7 +1773,7 @@ class LangtonAndRoberts(Tk):#,,,startup config,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
         
         #,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
         #,,,,,,,,,,,,dropdown Menu Bars ,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
-        #,,,File Tab,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+        #,,,File Tab,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
         menubar = Menu(container)
         filemenu = Menu(menubar, tearoff=0)#,could be True or False.
         menubar.add_cascade(label="File", menu=filemenu)
@@ -1800,8 +1826,8 @@ class LangtonAndRoberts(Tk):#,,,startup config,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
         frame = self.frames[cont]
         frame.tkraise()
         
-#,,,,,Home Page ,,,Anything in TABS,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,      
-class StartPage(Frame):#,,All Tab Windows (Services,Products,),,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+#,,,,,Home Page ,,,Anything in TABS,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,      
+class StartPage(Frame):#,,All Tab Windows (Services,Products,),,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
     def __init__(self, parent, controller):
         Frame.__init__(self,parent)
         #,,Buttons Frame(left),,Center Frame(left),Ribbon Frame(Top),,,,,,,
@@ -1830,7 +1856,6 @@ class StartPage(Frame):#,,All Tab Windows (Services,Products,),,,,,,,,,,,,,,,,,,
         
         #,,, connect to database,,,,,,,,,,.
         conn=sqlite3.connect("tree_crm.db")
-        #,,,create a cursor.
         c=conn.cursor()
         #,,,get company name from Database (should have only 1 row),,,,,,,
         c.execute("SELECT business_name FROM business_details")
@@ -1896,10 +1921,10 @@ class StartPage(Frame):#,,All Tab Windows (Services,Products,),,,,,,,,,,,,,,,,,,
         tab_6=Frame(notebook)#,background='#e6f5f3')#,background="black")#new frame for tab_3
         #self.imagrObj=PhotoImage(file='save.ico')
         notebook.add(tab_0,text=f'{company_name}')
-        notebook.add(tab_1,state="hidden",text="INVENTIRY")
+        notebook.add(tab_1,state="hidden",text="INVENTORY")
         notebook.add(tab_2,state="hidden",text="SERVICES")
         notebook.add(tab_3,state="hidden",text="PET INFORMATION")#image=self.imagrObj,compound="left")
-        notebook.add(tab_4,state="hidden",text="SELL SOMETHING")
+        notebook.add(tab_4,state="hidden",text="TAB 4")
         notebook.add(tab_5,state="hidden",text="REPORTS")
         notebook.add(tab_6,state="hidden",text="EMPLOYEES")
         notebook.pack(expand=True,fill="both")
@@ -2133,7 +2158,6 @@ class StartPage(Frame):#,,All Tab Windows (Services,Products,),,,,,,,,,,,,,,,,,,
                     c.executemany("DELETE FROM products_two WHERE oid = ?",[(a,)for a in ids_to_delete])
                     #,,,commit the changes
                     conn.commit()
-                    #,,,close the connection
                     conn.close()
                     #,,,clear entries from boxes if filled.
                     clear_product_view()
@@ -2230,7 +2254,7 @@ class StartPage(Frame):#,,All Tab Windows (Services,Products,),,,,,,,,,,,,,,,,,,
         last_sale_ent.grid(row=10,column=1,padx=5,pady=5,sticky=E)
         
 
-        #,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,    
+        #,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,    
         #,,,Create the product Tree view,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
         #,,,Create Treeview Scroll for products,,,
         tree_scroll_y=Scrollbar(product_tree_frame)
@@ -2240,11 +2264,15 @@ class StartPage(Frame):#,,All Tab Windows (Services,Products,),,,,,,,,,,,,,,,,,,
         #,,,Configure the product scrollbar,,,,,,,,,,,,,
         tree_scroll_y.config(command=product_tree.yview)
         #tree_scroll2.config(command=product_tree.xview)
-        #,,,Define the product treeview Columns,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
-        product_tree["columns"]=("Product","Supplier","Category","ID","Cost Price","Retail Price","In Qt","Stock Level","Min Level","Max Level","Barcode","Purchase Date",)
-        #displaycolumns=("Product","Supplier","Category","ID","Cost Price","Retail Price","In Qt","Stock Level","Barcode","Purchase Date",)#show only columns you need to see.
         
-        #,,,Format the product treeview Columns,,,
+        #,,,Define the product treeview Columns,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+        #,,,,,,,,,,,,,,,,,,,,,,use this to hide some columns in tree view,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+        column_names=("Product","Supplier","Category","ID","Cost Price","Retail Price","In Qt","Stock Level","Min Level","Max Level","Barcode","Purchase Date",)
+        product_tree.configure(columns=column_names,
+                                displaycolumns=("ID","Product","Supplier","Barcode",))
+        
+        
+        #,,,Format the product treeview Columns,,,,,,,,,,,,,,,,,,,,,,,,
         product_tree.column("#0",width=0,stretch=NO)#,minwidth=25
         product_tree.column("Product",anchor=W,width=130,minwidth=25)
         product_tree.column("Supplier",anchor=W,width=130)
@@ -2259,10 +2287,10 @@ class StartPage(Frame):#,,All Tab Windows (Services,Products,),,,,,,,,,,,,,,,,,,
         product_tree.column("Barcode",anchor=W,width=80)
         product_tree.column("Purchase Date",anchor=W,width=80)
         
-        #,,,Create Headings for product treeview,,,,,,,,,,,,,,,,,,,,,
+        #,,,Create Headings for product treeview,,,,,,,,,,,,,,,,,,,,,,
         product_tree.heading("#0",text="",anchor=W)
         product_tree.heading("Product",text="Product",anchor=W)
-        product_tree.heading("Supplier",text="Supplier",anchor=CENTER)
+        product_tree.heading("Supplier",text="Supplier",anchor=W)
         product_tree.heading("Category",text="Category",anchor=CENTER)
         product_tree.heading("ID",text="ID",anchor=CENTER)
         product_tree.heading("Cost Price",text="Cost",anchor=CENTER)
@@ -3020,9 +3048,6 @@ class StartPage(Frame):#,,All Tab Windows (Services,Products,),,,,,,,,,,,,,,,,,,
         services_tree.bind("<ButtonRelease-1>",select_service_record)
         services_tree.bind("<Double-1>",double_click)
         
-            
-        
-
         label_1=Label(details_frame,text='Service name:')#,bg="#e6f5f3")
         label_1.grid(row=0,column=0,padx=5,pady=5,sticky=W)
         sev_name=Entry(details_frame,width=28)
@@ -3250,7 +3275,7 @@ class StartPage(Frame):#,,All Tab Windows (Services,Products,),,,,,,,,,,,,,,,,,,
         clear_button_Service=HoverButton(button_frame,text='CLEAR',cursor="hand2",activebackground= '#e2f723',fg="black",command=clear_service_box)#clear_service_box)#lambda: popupmsg('Not supported just yet!'))
         clear_button_Service.grid(row=0,column=0,padx=(70,3),pady=3)
         global service_save_button
-        service_save_button=HoverButton(button_frame,text='SAVE',cursor="hand2",activebackground= '#e2f723',fg="black",command=save_service)#lambda: popupmsg('Not supported just yet!'))
+        service_save_button=HoverButton(button_frame,text='ADD',cursor="hand2",activebackground= '#e2f723',fg="black",command=save_service)#lambda: popupmsg('Not supported just yet!'))
         service_save_button.grid(row=0,column=1,padx=3,pady=3)
         service_update_button=HoverButton(button_frame,text='UPDATE',cursor="hand2",activebackground= '#e2f723',fg="black",command=update_service_details)#lambda: popupmsg('Not supported just yet!'))
         service_update_button.grid(row=0,column=2,padx=3,pady=3)
@@ -3334,6 +3359,7 @@ class StartPage(Frame):#,,All Tab Windows (Services,Products,),,,,,,,,,,,,,,,,,,
         
         #,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
         #,,,TAB 3 Pet Information,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+        #,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
         top_label_frame1=Frame(tab_3,bd=1)  
         top_label_frame1.pack(pady=0,padx=0,anchor=W,fill=X)
         heading=Label(top_label_frame1,text="PET INFOMATION",font="bold 20",fg="#347083")
@@ -3376,6 +3402,7 @@ class StartPage(Frame):#,,All Tab Windows (Services,Products,),,,,,,,,,,,,,,,,,,
         conn.close()
         
         
+            
         
         def talk_pet():
             engine=pyttsx3.init()
@@ -3530,6 +3557,7 @@ class StartPage(Frame):#,,All Tab Windows (Services,Products,),,,,,,,,,,,,,,,,,,
             petinfo.set("")
             dog_photo.set("")
         query_pet_database()
+        
             #fn_entry.focus() #forget
         
         
@@ -3595,6 +3623,7 @@ class StartPage(Frame):#,,All Tab Windows (Services,Products,),,,,,,,,,,,,,,,,,,
             
         
         def help_pet_info():
+            global pet_photo_label
             a=(f'Click SHOW ALL to display all records\n')
             b=(f"then select a record to display it's information.\n\n")
             c=(f'Click SEARCH and enter the pet name.\n\n')
@@ -3603,13 +3632,46 @@ class StartPage(Frame):#,,All Tab Windows (Services,Products,),,,,,,,,,,,,,,,,,,
             f=(f'To remove a record, select a record in view, click DELETE RECORD.\n')
             g=(f'(you will have the option to continue or cancel the deletion.)\n\n')
             h=(f'If you need a reminder, click HELP!.')
-            
             answer=a+b+c+d+e+f+g+h
             petinfo.set(answer)
+            pet_photo_label.place_forget()
+            
+        
+        def but_show_photo():
+            global pet_photo_label
+            #,,gets pet photo from db,,,,,,,,,,,,
+            #https://youtu.be/muNVcOFjVzY
+            conn=sqlite3.connect("tree_crm.db")
+            c=conn.cursor()
+            #,,,get rowid using tree ID,,,,,,,
+            c.execute("SELECT  photo FROM customer_pets WHERE rowid == ?",(pet_id))
+            pics=c.fetchall()
+            for x in pics:
+                rec_data=x[0]
+            with open('test_pet_pic.jpg','wb') as f:
+                f.write(rec_data)
+                
+            
+            #,,,Show an Image,(pet photo),,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+            pet_image=(Image.open("test_pet_pic.jpg"))#("michell_photo.jpg"))
+            width, height=pet_image.size
+            width_new=int(width/3)
+            height_new=int(width/3)
+            pet_image_resized=pet_image.resize((width_new,height_new))#this will resizes the image keep ratio.
+            pet_image=pet_image.resize((200,200))#resizes the image.
+            pet_imagePH=ImageTk.PhotoImage(pet_image)
+            pet_photo_label=tk.Label(tab_3,image=pet_imagePH)
+            pet_photo_label.image=pet_imagePH#this must be put to show the image.
+            pet_photo_label.place_forget()
+            pet_photo_label.place(x=520,y=315)#grid(row=0,column=1,padx=20,pady=20)
+
+            conn.commit()
+            conn.close()
+        
         
         #,,, Select Record from pet treeviw(bind),,,,,,,,,,,,,,,,,,
         def select_pet_record(e):
-            global pet_photo_label
+            global pet_id
             #code to ignore header being clicked.
             region_clicked=pet_tree.identify_region(e.x, e.y)
             if region_clicked not in ('pet_tree','cell'):
@@ -3661,43 +3723,33 @@ class StartPage(Frame):#,,All Tab Windows (Services,Products,),,,,,,,,,,,,,,,,,,
                 #f=(f'TOTAL BALANCE for the accommodation only £{total_price}\n')
                 g=a+a1+a2+a3+a4+a5+a6
                 petinfo.set(g)
-                #dog_photo.set("PHOTO OF DOG\nPLACE HEAR")
-                #dog_photo.set(pet_photo)#Shows pet photo on screen.
-                #,,,Show an Image,(pet photo),,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
-                pet_image=(Image.open("michell_photo.jpg"))#("michell_photo.jpg"))
-                width, height=pet_image.size
-                width_new=int(width/3)
-                height_new=int(width/3)
-                pet_image_resized=pet_image.resize((width_new,height_new))#this will resizes the image keep ratio.
-                pet_image=pet_image.resize((100,100))#resizes the image.
-                pet_imagePH=ImageTk.PhotoImage(pet_image)
-                pet_photo_label=tk.Label(tab_3,image=pet_imagePH)
-                pet_photo_label.image=pet_imagePH#this must be put to show the image.
-                pet_photo_label.place(x=400,y=315)#grid(row=0,column=1,padx=20,pady=20)
+                pet_photo_label.place_forget()
+                but_show_photo()
+                
         
         #,,, Bind the tree,,,,when clicked,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
         pet_tree.bind("<ButtonRelease-1>",select_pet_record)
         
         
         def convert_pick():#converts file to save to db.
-            filename="michell_photo.jpg"
+            filename="grayhound 4.jpg"
             with open(filename, 'rb') as file:
                 photo=file.read()
             return photo
         
-        def get_photo():
+        def save_photo_to_db():
             photo=convert_pick()
             #,,, Create a database or connect to one.
             conn=sqlite3.connect("tree_crm.db")
             #,,,create a cursor.
             c=conn.cursor()
             #,,,get row using ID,,,,,,,
-            c.execute(f"UPDATE customer_pets SET photo = ? WHERE oid= 4",([photo]))#WORKING
-            #c.execute("INSERT INTO pet_images(datestamp, dog_name, photo) VALUES (?,?,?)",(datestamp, dog_name, pet_photo))
+            c.execute(f"UPDATE customer_pets SET photo = ? WHERE oid= 6",([photo]))#WORKING
+            
             conn.commit()
             c.close()
             
-        #get_photo()
+        #save_photo_to_db()
         
         #https://youtu.be/vvq6xRziKns
         def play_video():
@@ -3764,6 +3816,8 @@ class StartPage(Frame):#,,All Tab Windows (Services,Products,),,,,,,,,,,,,,,,,,,
         lb1=Label(info_frame,textvariable=petinfo,font="Verdana, 12",fg="#347083",justify=LEFT)
         lb1.grid(row=0,column=0,padx=20,pady=20)
         
+        
+        
         pet_photo_label=Label(tab_3,textvariable=dog_photo,fg="red",justify=LEFT)
         pet_photo_label.place(x=400,y=315)#grid(row=0,column=3,padx=0,pady=0)
         
@@ -3773,16 +3827,16 @@ class StartPage(Frame):#,,All Tab Windows (Services,Products,),,,,,,,,,,,,,,,,,,
         secret_pet_name.grid(row=0,column=2,padx=0,pady=0)
         
         #,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
-        #,,,TAB 4 Sell Something Frames,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+        #,,,TAB 4 ,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
         top_label_frame1=Frame(tab_4,bd=1)  
         top_label_frame1.pack(pady=0,padx=0,anchor=W,fill=X)
-        heading=Label(top_label_frame1,text="SELL SOMETHING (Reciept's & Invoice's.)",font="bold 20",fg="#347083")
+        heading=Label(top_label_frame1,text="TAB 4",font="bold 20",fg="#347083")
         heading.grid(row=0,column=0,columnspan=3,padx=30,pady=17)
         button_label_frame=Frame(tab_4,bg="light blue",bd=1)  
         button_label_frame.pack(pady=0,padx=0,anchor=W,fill=X)
         box_frame3=Frame(tab_4)  
         box_frame3.pack(pady=30,padx=30,anchor=W,fill=X)
-        
+        '''
         invoice_name_label=Label(box_frame3,text="Client Name")
         invoice_name_label.grid(row=0,column=0)
         client_name_ent=Entry(box_frame3)
@@ -3800,15 +3854,7 @@ class StartPage(Frame):#,,All Tab Windows (Services,Products,),,,,,,,,,,,,,,,,,,
         price_inv=Entry(box_frame3)
         price_inv.grid(row=3,column=1)
         
-        #with open('bookings.csv','a',newline='') as csvfile:#shows all the content of the file.
-            #writer=csv.writer(csvfile)
-            
-       # with open("bookings.csv","r") as f: #(with) is a context manager,,so you do not need to close the file after you open it.
-                #content = f.read()
-                #print("------------this is the full list of the bookings--------------")
-                #print(content)
-                #print("--------------------------------------------------------")            
-        #add data to CSV file.
+        
         def addbooking():
             bookings=[]
             data=[]#data will be the list we use to search the column where booking ref is.
@@ -3945,12 +3991,12 @@ class StartPage(Frame):#,,All Tab Windows (Services,Products,),,,,,,,,,,,,,,,,,,
                 unit_inv.delete(0,END)
                 price_inv.delete(0,END)
                 messagebox.showinfo("INVOICE GENERATED", "YOUR INVOICE WAS GENERATED SUCESSFULLY")
-
+            '''
 
         #,,,Buttons Sell Something,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
         button1_marketing=HoverButton(button_label_frame,text="",font=LARGE_FONT,activebackground = 'white',cursor="hand2",bg="light blue",fg="black",relief=FLAT)#,command=lambda:popupmsg("Not yet completed"))
         button1_marketing.grid(row=0,column=1,padx=1,pady=1,ipady=5,ipadx=5)
-        button_invoice_marketing=HoverButton(button_label_frame,text="INVOICE",font=LARGE_FONT,activebackground = 'white',cursor="hand2",bg="light blue",fg="black",relief=FLAT,command=make_client_invoice)#addbooking)#lambda:popupmsg("Not yet completed"))#make_client_invoice
+        button_invoice_marketing=HoverButton(button_label_frame,text="BUTTON",font=LARGE_FONT,activebackground = 'white',cursor="hand2",bg="light blue",fg="black",relief=FLAT,command=lambda:popupmsg("Not yet completed"))#make_client_invoice
         button_invoice_marketing.grid(row=0,column=2,padx=1,pady=1,ipady=5,ipadx=10)
         button_help_marketing=HoverButton(button_label_frame,text="HELP!",font=LARGE_FONT,activebackground = 'white',cursor="hand2",bg="light blue",fg="black",relief=FLAT,command=lambda:popupmsg("Not yet completed"))
         button_help_marketing.grid(row=0,column=3,padx=1,pady=1,ipady=5,ipadx=10)
@@ -4034,8 +4080,7 @@ class StartPage(Frame):#,,All Tab Windows (Services,Products,),,,,,,,,,,,,,,,,,,
             for x in l_sales:
                 lux_sales=format(x[0],'.2f')
                 luxury_income=('Luxury Care Income: £' + str(lux_sales))
-                #print(luxury_income)
-                boarding_num.set("Total Boarding Income £"+ total_sales + "\n\nStandard £"+ stand_sales+ "\nPremium £"+ prem_sales+ "\nLuxury    £"+ lux_sales)
+                boarding_num.set("Total Boarding Income £"+ str(total_sales) + "\n\nStandard £"+ str(stand_sales) + "\nPremium £"+ str(prem_sales) + "\nLuxury    £"+ str(lux_sales))
 
             conn.commit()
             conn.close()  
@@ -4283,6 +4328,7 @@ class StartPage(Frame):#,,All Tab Windows (Services,Products,),,,,,,,,,,,,,,,,,,
         reports_frame3=Frame(tab_5)  
         reports_frame3.pack(padx=30,pady=(20,3),anchor=W,fill=X)
         
+        
         #Buttons-reports#https://youtu.be/CJ1TqEGRSe0
         button1_reports=HoverButton(reports_frame3,text="Purchases",font=LARGE_FONT,activebackground = '#b9b8ba',cursor="hand2",bg="#ffa742",fg="white",height=6,width=20,relief=FLAT,anchor="nw")#,command=lambda:popupmsg("Not yet completed"))
         button1_reports.grid(row=0,column=0,padx=4,pady=3,ipady=5,ipadx=5)
@@ -4290,12 +4336,10 @@ class StartPage(Frame):#,,All Tab Windows (Services,Products,),,,,,,,,,,,,,,,,,,
         button2_reports.grid(row=0,column=1,padx=4,pady=3,ipady=5,ipadx=5)
         button3_reports=HoverButton(reports_frame3,text="Sales",font=LARGE_FONT,activebackground = '#b9b8ba',cursor="hand2",bg="#529c81",fg="white",height=6,width=20,relief=FLAT,anchor="nw")#,command=lambda:popupmsg("Not yet completed"))
         button3_reports.grid(row=0,column=2,padx=4,pady=3,ipady=5,ipadx=5)
-        
         client_reports=HoverButton(reports_frame3,textvariable=client_num,font=LARGE_FONT,activebackground = '#b9b8ba',cursor="hand2",bg="#298203",fg="white",height=6,width=20,relief=FLAT,anchor="nw",command=lambda:controller.show_frame(PageTwo))
         client_reports.grid(row=0,column=3,padx=4,pady=3,ipady=5,ipadx=5)
         client_reports.bind("<Enter>",client_hover)
         client_reports.bind("<Leave>",client_hover_leave)
-        
         pet_reports=HoverButton(reports_frame3,textvariable=pet_num,font=LARGE_FONT,activebackground = '#b9b8ba',cursor="hand2",bg="#975ac7",fg="white",height=6,width=20,relief=FLAT,anchor="nw",command=select_3)
         pet_reports.grid(row=0,column=4,padx=4,pady=3,ipady=5,ipadx=5)
         pet_reports.bind("<Enter>",pet_hover)
@@ -4498,17 +4542,17 @@ class StartPage(Frame):#,,All Tab Windows (Services,Products,),,,,,,,,,,,,,,,,,,
         
         def help_staff():
             #d=(f"For NEW employee, enter.\n\n")
-            a=(f"To UPDATE click SEARCH, enter employee's last name in the pop-up box\n")
+            a=(f"To UPDATE click SEARCH, enter employee's last name in the pop-up box.\n")
             b=(f"this will display the employee information to the display below.\n")
             c=(f'Select employee from display, update details if needed.\n\n')
             e=(f'WARNING... DELETE EMPLOYEE will permanently delete from the database.\n')
             f=(f"To remove a record, view the employee's details, click DELETE EMPLOYEE.\n")
             g=(f'(you will have the option to continue or cancel the deletion.)\n\n')
             f1=(f"LEAVERS!,, change Leaver to (Yes) enter date click UPDATE RECORDS.\n\n")
-            f2=(f'EXIT simply closes the EMPLOYEE screen.\n\n')
-            h=(f'If you need a reminder, click HELP!.')
+            f2=(f'EXIT simply closes the EMPLOYEE screen.')
+            h=(f'For new starter, enter details and click ADD.\n(all fields are needed, set Leaver to No).\n\n')
             
-            answer=a+b+c+e+f+g+f1+f2+h
+            answer=h+a+b+c+e+f+g+f1+f2
             employ_info.set(answer)
             clear_employee_box()
             
@@ -4954,7 +4998,7 @@ class StartPage(Frame):#,,All Tab Windows (Services,Products,),,,,,,,,,,,,,,,,,,
         #,,,employee comand button frame,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
         employee_button_frame = LabelFrame(employee_frame,text = '')
         employee_button_frame.grid(row=9,column=0,columnspan=4,padx=2,pady=2)
-        save=HoverButton(employee_button_frame,text="SAVE",cursor="hand2",activebackground= '#e2f723',fg="black",command=add_employee)#lambda: popupmsg('Not supported just yet!'))
+        save=HoverButton(employee_button_frame,text="ADD",cursor="hand2",activebackground= '#e2f723',fg="black",command=add_employee)#lambda: popupmsg('Not supported just yet!'))
         save.grid(row=0,column=0,padx=2,pady=2)
         clear_all=HoverButton(employee_button_frame,text="CLEAR ALL",cursor="hand2",activebackground= '#e2f723',fg="black",command=clear_employee_box)#lambda: popupmsg('Not supported just yet!'))
         clear_all.grid(row=0,column=1,padx=2,pady=2)
@@ -4995,7 +5039,7 @@ class StartPage(Frame):#,,All Tab Windows (Services,Products,),,,,,,,,,,,,,,,,,,
         button5.pack(fill=X,pady=2)#grid(row=4,column=0)#pack()
         button6 = HoverButton(can_2, text="PET\nINFORMATION",height=3,relief=FLAT,cursor="hand2",bd=0,activebackground= 'orange',bg="#e2f723",fg="black",command=select_3)
         button6.pack(fill=X,pady=2)#grid(row=4,column=0)#pack()
-        button7 = HoverButton(can_2, text="SELL\nSOMETHING",height=3,relief=FLAT,cursor="hand2",bd=0,activebackground= 'white',bg="#e2f723",fg="black",command=select_4)#lambda: controller.show_frame(PageTwo))
+        button7 = HoverButton(can_2, text="TAB 4",height=3,relief=FLAT,cursor="hand2",bd=0,activebackground= 'white',bg="#e2f723",fg="black",command=select_4)#lambda: controller.show_frame(PageTwo))
         button7.pack(fill=X,pady=2)#grid(row=3,column=1)#pack()
         button8 = HoverButton(can_2, text="REPORTS",height=3,relief=FLAT,cursor="hand2",bd=0,activebackground= 'orange',bg="#e2f723",fg="black",command=select_5)#lambda: controller.show_frame(PageThree))
         button8.pack(fill=X,pady=2)#grid(row=4,column=0)#pack()
@@ -5042,6 +5086,10 @@ class StartPage(Frame):#,,All Tab Windows (Services,Products,),,,,,,,,,,,,,,,,,,
         
         #,,, Select Record from bookings treeviw(bind),,,,,,,,,,,,,,,,,,
         def select_employee_record(e):
+            region_clicked=employee_tree.identify_region(e.x, e.y)
+            if region_clicked not in ('employee_tree','cell'):
+                return
+                #print("Clicked Header")
             employ_info.set("")
             save["state"]="disabled"
             staff_labl.set("If Leaver, change Leaver to (Yes), enter date, then UPDATE.")
@@ -5110,7 +5158,12 @@ class StartPage(Frame):#,,All Tab Windows (Services,Products,),,,,,,,,,,,,,,,,,,
         #,,,Configure the scrollbar,,,
         tree_scroll.config(command=employee_tree.yview)
         #,,,Define the Columns,,,
-        employee_tree["columns"]=("ID","FIRST NAME","LAST NAME","ADDRESS","TOWN","CITY","COUNTY","POSTCODE","PHONE","EMAIL","START DATE","POSITION","NI NUMBER",)
+        #,,,,,,,,,,,,,,,,,,,,,,use this to hide some columns in tree view,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+        column_names=("ID","FIRST NAME","LAST NAME","ADDRESS","TOWN","CITY","COUNTY","POSTCODE","PHONE","EMAIL","START DATE","POSITION","NI NUMBER",)
+        employee_tree.configure(columns=column_names,
+                                displaycolumns=("ID","FIRST NAME","LAST NAME","POSITION",))
+        #,,,Define the Columns,,,
+        #employee_tree["columns"]=("ID","FIRST NAME","LAST NAME","ADDRESS","TOWN","CITY","COUNTY","POSTCODE","PHONE","EMAIL","START DATE","POSITION","NI NUMBER",)
         #,,,Format the Columns,,,
         employee_tree.column("#0",width=0,stretch=NO)
         employee_tree.column("ID",anchor=W,width=10)
@@ -5179,7 +5232,7 @@ class StartPage(Frame):#,,All Tab Windows (Services,Products,),,,,,,,,,,,,,,,,,,
         exit_program_button1.grid(row=0,rowspan=3,column=9,pady=0,padx=2)#pack()
        
 #,,,,,Sytem Info Page,,(page one),,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,        
-class PageOne(Frame):#,,Anything for Page One System Info put hear,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+class PageOne(Frame):#,,Anything for Page One System Info put hear,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
     def __init__(self, parent, controller):
         Frame.__init__(self, parent)
 
@@ -5237,8 +5290,6 @@ class PageOne(Frame):#,,Anything for Page One System Info put hear,,,,,,,,,,,,,,
             website text,
             vat_number integer)
             """)
-        
-        
         
         #,,,commit the changes
         conn.commit()
@@ -5312,8 +5363,6 @@ class PageOne(Frame):#,,Anything for Page One System Info put hear,,,,,,,,,,,,,,
                 #phrase=['Dog Lick','Ball Buster','Rug Rats','Only on a Monday']
                 #return phrase[random.randint(0,4)]+name
                 
-
-
         #vat_rate_lbl = Label(company_info_frame, text = 'Set VAT rate %:')
         #vat_rate_lbl.grid(row=1, column=2, padx=5, pady=5,sticky=E)
         #vat_rate_ent = Entry(company_info_frame,width=6)
@@ -5459,6 +5508,7 @@ class PageOne(Frame):#,,Anything for Page One System Info put hear,,,,,,,,,,,,,,
             email_ent.delete(0,END)
             web_ent.delete(0,END)
             vat_ent.delete(0,END)
+            system_info.set("")
         
         
         def help_system():
@@ -5599,6 +5649,7 @@ class PageOne(Frame):#,,Anything for Page One System Info put hear,,,,,,,,,,,,,,
             standard_ent.delete(0,END)
             luxury_ent.delete(0,END)
             premium_ent.delete(0,END)
+            system_info.set("")
             
         
         def show_general_settings():#,,populates current settings.
@@ -5720,8 +5771,8 @@ class PageOne(Frame):#,,Anything for Page One System Info put hear,,,,,,,,,,,,,,
         lb1=Label(info_help,textvariable=system_info,font="Verdana, 12",fg="#347083",justify=LEFT)
         lb1.grid(row=0,column=0,padx=40,pady=0)
                                     
-#,,,,,Client Database,,(Page Two),,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
-class PageTwo(Frame):#,,Anything for Client Database put hear,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+#,,,,,Client Database,,(Page Two),,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+class PageTwo(Frame):#,,Anything for Client Database put hear,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
 
     def __init__(self, parent, controller):
         Frame.__init__(self, parent)
@@ -6281,8 +6332,8 @@ class PageTwo(Frame):#,,Anything for Client Database put hear,,,,,,,,,,,,,,,,,,,
         #button3.pack(pady=5)
         query_database()#,,,shows tree table on start up.
         
-#,,,,,Booking records,,(page Three),,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
-class PageThree(Frame):#,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+#,,,,,Booking records,,(page Three),,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+class PageThree(Frame):#,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
 
     def __init__(self, parent, controller):
         Frame.__init__(self, parent)
@@ -6492,15 +6543,15 @@ class PageThree(Frame):#,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
                 booking_ref=values[14]
                 #fn_entry.focus()
                 a=(f"Booking ref: {booking_ref}.\n")
-                a1=(f"Loged by staff member: {staff}.\n")
-                a2=(f"System ID: {id}\n\n")
+                a1=(f"Loged by staff member: {staff}.\n\n")
+                #a2=(f"System ID: {curr_datetime}\n\n")
                 b=(f'{client_name} requested accommodation for {pet_name} ({pet_type}) to stay {in_date} untill {out_date}\n')
                 c=(f'{care_option} care plan was chosen at £{unite_price:.2f} + vat per day for a total of {units} days.\n')
                 d=(f'{pet_name} was to be alocated enclosure {enclosure} on arrival.\n')
                 e=(f'Pick-up service requested: {pick_up}\nDrop off service requested: {drop_off}.\n\n')
                 f=(f'TOTAL BALANCE for accommodation only is £{total_price:.2f}\n')
                 g=(f'To confirm payment and generate a RECIEPT, click CONFIRM PAYMENT and select yes.')
-                h=a+a1+a2+b+c+d+e+f+g
+                h=a+a1+b+c+d+e+f+g
                 bookinginfo.set(h)
             
             
@@ -6511,7 +6562,7 @@ class PageThree(Frame):#,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
                 selected_item=calendar_tree.focus()#selects the row.
                 details=calendar_tree.item(selected_item)#gets row ref number.
                 tree_cell_content=details.get("values")[14]#gets cell 14 content in row.
-                tree_cell_content2=details.get("values")[1]#gets cell 14 content in row.
+                tree_cell_content2=details.get("values")[1]#gets cell 1 content in row.
                 #messagebox.showinfo(f'Booking ref',(tree_cell_content2 ) + '\n' + ( tree_cell_content))
                 #print('Booking ref selected: ',tree_cell_content)#returns a string.
             except IndexError:
@@ -6521,7 +6572,7 @@ class PageThree(Frame):#,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
             if response==1:
                 curr_datetime=datetime.now()#retuns (2022-07-13 19:29:37.029066) string format.
                 req_format=datetime.strftime(curr_datetime,'%d/%m/%Y %H-%M-%S')
-                messagebox.showinfo("RECIEPT GENERATED", f"Your Reciept can be found\nwithin Search Reciepts (left).\n\nunder ref:\n{tree_cell_content} {tree_cell_content2}\n\n(It may take 2 or 3 seconds.)")
+                messagebox.showinfo("RECEIPT AVAILABLE", f"Your Receipt can be found\nwithin Search Receipts (left).\n\nunder ref:\n{tree_cell_content} {tree_cell_content2}.)")
                 button_1["state"]="normal"
                 #,,,Grabe entry on click
                 selected=calendar_tree.focus()
@@ -6563,7 +6614,7 @@ class PageThree(Frame):#,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
                 p2.add_run(care_option).bold=True
                 p2.add_run(' Accommodation').bold=True
                 p2.add_run(f',\nfrom {in_date} until {out_date}, {pet_name} will be placed in enclosure {enclosure} on arrival.\nFor future corrospondance your booking was taken by our staff member {staff}. ')
-                p2.add_run(f'{pet_name} has also been given pet ID: {id} for referancing on our system.')
+                #p2.add_run(f'{pet_name} has also been given pet ID: {id} for referancing on our system.')
                 [document.add_paragraph('')for _ in range(2)]#adds 2 empty lines.
                 table=document.add_table(rows=1, cols=5)
                 hdr_cells=table.rows[0].cells
@@ -6714,18 +6765,20 @@ class PageThree(Frame):#,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
         #,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
         #,,,Create the Treeview,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
         global calendar_tree
+        
         calendar_tree=ttk.Treeview(tree_frame,height=5,yscrollcommand=tree_scroll.set,selectmode="extended")
         calendar_tree.pack()
+        
         #,,,Configure the scrollbar,,,
         tree_scroll.config(command=calendar_tree.yview)
         #,,,,,,,,,,,,,,,,,,,,,,use this to hide columns in tree view,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
-        #column_names=("ID","CLIENT","PET NAME","STAFF","ENCLOSURE","PET TYPE","PICK UP","DROP OFF","CARE PLAN","IN DATE","OUT DATE","UNITS","UNIT PRICE","TOTAL PRICE","BOOKING REF",)
-        #calendar_tree.configure(columns=column_names,
-                                #displaycolumns=("ID","CLIENT","PET NAME","STAFF","ENCLOSURE","PET TYPE","CARE PLAN","UNITS","UNIT PRICE","TOTAL PRICE","BOOKING REF",))
+        column_names=("ID","CLIENT","PET NAME","STAFF","ENCLOSURE","PET TYPE","PICK UP","DROP OFF","CARE PLAN","IN DATE","OUT DATE","UNITS","UNIT PRICE","TOTAL PRICE","BOOKING REF",)
+        calendar_tree.configure(columns=column_names,
+                                displaycolumns=("CLIENT","PET NAME","IN DATE","OUT DATE","BOOKING REF",))
         #,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
         
         #,,,Define the Columns,,,
-        calendar_tree["columns"]=("ID","CLIENT","PET NAME","STAFF","ENCLOSURE","PET TYPE","PICK UP","DROP OFF","CARE PLAN","IN DATE","OUT DATE","UNITS","UNIT PRICE","TOTAL PRICE","BOOKING REF",)
+        #calendar_tree["columns"]=("ID","CLIENT","PET NAME","STAFF","ENCLOSURE","PET TYPE","PICK UP","DROP OFF","CARE PLAN","IN DATE","OUT DATE","UNITS","UNIT PRICE","TOTAL PRICE","BOOKING REF",)
         #,,,Format the Columns,,,
         calendar_tree.column("#0",width=0,stretch=NO)
         calendar_tree.column("ID",anchor=W,width=15)
